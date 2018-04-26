@@ -1,0 +1,119 @@
+<div class="container">
+    <div class="row">
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/hometopup']">
+                <a id="padding-item" class="nav-link main-bg-color text-center "><i class="fas fa-mobile-alt "></i><br><i>Top-up</i></a>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/ubalance'] ">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="far fa-money-bill-alt"></i><br><i>User-Banlace</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" (click)="getUserDetails()" [routerLink]="[ '/user-info']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="far fa-user-circle"></i><br><i>User-info</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/urecharge']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-users"></i><br><i>User-Recharge-Cashier</i></i>
+            </div>
+        </div>
+        <!-- *********************************** -->
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/u-recharge-request']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-street-view"></i><br><i>User-Recharge-Request</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/transfer-history']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-exchange-alt" id="font-item"></i><br><i>Transfer-History</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/items']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-sitemap" id="font-item"></i><br><i>Items</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/item-shop']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-th" id="font-item"></i><br><i>Item-Shop</i></i>
+            </div>
+        </div>
+
+        <!-- *********************************** -->
+
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/admin']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-user-secret" id="font-item"></i><br><i>Admin</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/admin-history']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-history" id="font-item"></i><br><i>Admin-History</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/forgotpassword']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fas fa-key" id="font-item"></i><br><i>Forgot-Password</i></i>
+            </div>
+        </div>
+        <div class="font-size-items col-xl-3 col-lg-3 col-md-4 col-6 mt-10">
+            <div class="main-bg-color d-flex justify-content-center align-items-center cursor" [routerLink]="[ '/changepassword']">
+                <i id="padding-item " class="nav-link main-bg-color text-center  "><i class="fab fa-expeditedssl" id="font-item"></i><br><i>Change-Password</i></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div class="container ">
+    <div class="refillMoney ">
+        <ul class="nav">
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/hometopup']"><i class="fas fa-mobile-alt" id="font-item"></i><br><i>Top-up</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/ubalance']"><i class="far fa-money-bill-alt" id="font-item"></i><br><i>User-Banlace</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/user-info']"><i class="far fa-user-circle" id="font-item"></i><br><i>User-info</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/urecharge']"><i class="fas fa-users" id="font-item"></i><br><i>User-Recharge-Cashier</i></a>
+            </li>
+
+            8*************************8
+
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/u-recharge-request']"><i class="fas fa-street-view" id="font-item"></i><br><i>User-Recharge-Request</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/transfer-history']"><i class="fas fa-exchange-alt" id="font-item"></i><br><i>Transfer-History</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/items']"><i class="fas fa-sitemap" id="font-item"></i><br><i>Items</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/item-shop']"><i class="fas fa-th" id="font-item"></i><br><i>Item-Shop</i></a>
+            </li>
+            *********************
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/admin']"><i class="fas fa-user-secret" id="font-item"></i><br><i>Admin</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/admin-history']"><i class="fas fa-history" id="font-item"></i><br><i>Admin-History</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/forgotpassword']"><i class="fas fa-key" id="font-item"></i><br><i>Forgot-Password</i></a>
+            </li>
+            <li class="nav-item text-center m-refill" id="menu-item">
+                <a class="nav-link form-control main-bg-color paading-item" [routerLink]="['/changepassword']"><i class="fab fa-expeditedssl" id="font-item"></i><br><i>Change-Password</i></a>
+            </li>
+        </ul>
+    </div>
+</div> -->

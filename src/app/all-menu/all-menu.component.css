@@ -1,0 +1,52 @@
+.font-size-items {
+    font-size: 13pt;
+}
+
+.mt-10 {
+    margin-top: 40px;
+}
+
+.cursor {
+    cursor: pointer;
+    height: 180px;
+}
+
+.font-size-items:hover {
+    transition: 0.5s;
+    font-size: 12pt;
+    color: black !important;
+}
+
+.nav-link:hover {
+    transition: 0.5s;
+    color: black !important;
+}
+
+
+/* #menu-item {
+    width: 240px;
+    height: auto;
+    align-items: center;
+}
+
+#menu-item,
+ul,
+li,
+a:hover {
+    font-size: 14px;
+    transition: 0.5s;
+    color: black !important;
+}
+
+ul li {
+    margin-top: 30px;
+    margin-right: 15px;
+}
+
+.paading-item {
+    padding: 30px;
+}
+
+#font-item {
+    font-size: 22pt;
+} */

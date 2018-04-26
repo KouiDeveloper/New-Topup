@@ -1,0 +1,26 @@
+#admin-icon {
+    font-size: 30pt;
+    margin-left: 2rem;
+}
+
+#profile-icon {
+    font-size: 2.4rem;
+    margin: 1rem;
+}
+
+.page-link {
+    background-color: rgb(230, 29, 196);
+    border-color: rgb(151, 143, 143);
+    color: rgb(253, 253, 253);
+    border-radius: 20px 20px 20px 20px !important;
+    margin-right: 10px !important;
+}
+
+.page-link:hover {
+    background-color: rgb(192, 14, 162);
+    color: rgb(253, 253, 253);
+}
+
+#width-admin-history {
+    width: 130px;
+}

@@ -1,0 +1,23 @@
+#sale-items {
+    font-size: 26pt;
+    color: red;
+}
+
+#font-size-items1 {
+    font-size: 14pt;
+    line-height: 10px;
+}
+
+#font-size-items2 {
+    font-size: 12pt;
+    line-height: 10px;
+}
+
+#font-size-items3 {
+    font-size: 10pt;
+    line-height: 10px;
+}
+
+.list-group-item {
+    cursor: pointer;
+}

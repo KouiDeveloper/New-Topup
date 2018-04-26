@@ -1,0 +1,9 @@
+.captcha-border {
+    border-radius: 20px 20px 20px 20px !important;
+    background-color: #007bff;
+}
+
+.list-check-user-recharge-request #s-rc-rq {
+    width: 19px;
+    height: 19px;
+}

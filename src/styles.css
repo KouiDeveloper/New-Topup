@@ -1,0 +1,155 @@
+body {
+    /* background-color: #bebebe !important; */
+}
+
+.main-bg-color {
+    background: linear-gradient(to right, rgb(165, 4, 138), rgb(238, 7, 238)) !important;
+    color: whitesmoke !important;
+}
+
+.main-bg-color:hover {
+    background: linear-gradient(to right, rgb(230, 26, 196), rgb(185, 8, 185)) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+
+/* main bg-color-gadient right */
+
+.main-bg-color-right {
+    background: linear-gradient(to right, rgb(238, 7, 238), rgb(165, 4, 138)) !important;
+    color: whitesmoke !important;
+}
+
+.main-bg-color-right:hover {
+    background: linear-gradient(to right, rgb(185, 8, 185), rgb(230, 26, 196)) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.main-icon-color {
+    color: rgb(230, 29, 196);
+}
+
+.main-icon-color:hover {
+    color: rgb(182, 21, 155);
+}
+
+.smoke-font-color {
+    color: rgba(131, 131, 131, 0.986);
+}
+
+.bg-header {
+    color: #fff;
+    background: linear-gradient(to right, rgb(165, 4, 138), rgb(238, 7, 238));
+    border-color: #007bff;
+}
+
+.mt-6,
+.my-6 {
+    margin-top: 4.4rem !important;
+}
+
+.mt-7,
+.my-7 {
+    margin-top: 6.4rem !important;
+}
+
+.slick-dots li button::before {
+    margin-top: 16px !important;
+}
+
+.carousel-indicators {
+    cursor: pointer;
+}
+
+
+/* register start here */
+
+.display-5 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-top: 20px;
+    color: rgb(78, 76, 76);
+}
+
+.display-7 {
+    font-size: 1.9rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-top: 20px;
+    color: rgb(78, 76, 76);
+}
+
+.display-6 {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1;
+    color: rgb(133, 128, 128);
+}
+
+.border-register {
+    border: 2px solid;
+    border-color: rgba(245, 245, 245, 0.842);
+    padding-bottom: 2rem;
+}
+
+#register-color-icon {
+    color: green;
+}
+
+
+/* register end here  */
+
+
+/* btn-admin-promotion-ads */
+
+#btn-half {
+    margin-left: 2rem;
+}
+
+
+/* end btn-admin-promotion */
+
+
+/* search :start */
+
+.custom-formcontrol {
+    border-radius: 50px 0px 0px 50px !important;
+}
+
+.btn-search {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0px 50px 50px 0px;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+/* end search */
+
+
+/* hidden start */
+
+@media (max-width: 767px) {
+    .hidden-xs,
+    tr.hidden-xs,
+    th.hidden-xs,
+    td.hidden-xs {
+        display: none !important;
+    }
+}
+
+
+/* hidden end */
