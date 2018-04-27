@@ -5,14 +5,13 @@ import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
 
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [WebsocketDataServiceService, ChatService, WebsocketService]
-})
 
-export class LoginComponent implements OnInit, OnDestroy {
+@Component({
+  selector: 'app-change-phone',
+  templateUrl: './change-phone.component.html',
+  styleUrls: ['./change-phone.component.css']
+})
+export class ChangePhoneComponent implements OnInit {
   private _message: Message;
   private _newUser: any = {};
   private _userDetailsStr = '';
@@ -35,9 +34,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
-    if(this._client.logintoken){
-      router.navigate(['/all-menu']);
-    }
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
         this.readClient(client);
     }));
@@ -89,7 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     
   }
   saveClient() {
-    //this.websocketDataServiceService.refreshClient();
+    //// this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     console.log(JSON.stringify(this._client));
   }
@@ -98,7 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('firstHeartBeat', '');
     if (!this._client.gui || this._client.gui === undefined) {
       this._client = this.websocketDataServiceService.getClient();
-      this.websocketDataServiceService.refreshClient();
+      // this.websocketDataServiceService.refreshClient();
       console.log('client loaded');
     } else {
       this.saveClient();
@@ -136,9 +132,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               console.log(this._client.data['message']);
               
             } else {
-              this.saveClient();
               console.log('LOGIN OK');
-              this.router.navigate(['/all-menu']);
             }
             break;
           case 'get-client':
@@ -385,8 +379,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.changeMessage(this._client);
   }
   setOtherMessage() {
@@ -399,13 +393,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.websocketDataServiceService.setOtherMessage(msg);
   }
   shakeHands() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.shakeHands();
   }
   ping_test() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.ping_test();
     this._client.data.message += ' HERE in app component';
     console.log(this._client);
@@ -413,29 +407,29 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     // alert(JSON.stringify(this._loginUser));
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.login(this._loginUser); // return to this._client
     this.clearJSONValue(this._loginUser);
   }
   logout() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.logout();
   }
   getUserDetails() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.getUserDetails(this._client.data);
   }
   updateUserDetails() {
-    this._currentUserdetail = JSON.parse(this._userDetailsStr);
+    //this._currentUserdetail = JSON.parse(this._userDetailsStr);
     // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
   }
   get_user_gui() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.get_user_gui();
   }
 
@@ -496,6 +490,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this._newUser.data['secret'].length === 6) {
           this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
           this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
+          alert('Your password has been changed successfully! Thank you');
         }
       }
     } else {
@@ -507,7 +502,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // if (!this._client.gui || this._client.gui === undefined) {
     //   this._client = this.websocketDataServiceService.getClient();
     // }
-    this.websocketDataServiceService.refreshClient();
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     this.router.navigate([com]).then(res => {
       // this.websocketDataServiceService.stopService();

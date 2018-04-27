@@ -5,25 +5,25 @@
             <h5 class="text-center display-5 langlao">ສ້າງບັນຊີຂອງທ່ານ</h5>
             <form action="">
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="username">ກະລຸນາປ້ອນຊື່*</label>
-                <input name="username" (value)="_newUser.data['user']===undefined? '' : _newUser.data['user'].username" (input)="_newUser.data['user'].username=$event.target.value" type="text" placeholder="Username" class="form-control input-md" required>
-                <label class="ml-4 mt-3 langlao smoke-font-color" for="phonenumber">ເບີໂທລະສັບ* </label>
+                <input name="username" (value)="_newUser.data['user']===undefined? '' : _newUser.data['user'].username" (input)="_newUser.data['user'].username=$event.target.value" type="text" placeholder="Username" class="form-control" required>
+                <label class="ml-4 mt-3 langlao smoke-font-color" for="phonenumber">ເບີໂທລະສັບ (+85620)* </label>
                 <input name="phonenumber" (value)="_newUser.data['user'].phonenumber===undefined? '' : _newUser.data['user'].phonenumber" (input)="_newUser.data['user'].phonenumber=$event.target.value" type="number" maxlength="10" placeholder="phonenumber: 205 or 209"
-                    class="form-control input-md" required>
+                    class="form-control" required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="rpassword">ລະຫັດຜ່ານ*</label>
                 <span class="input-group">
                     <input name="rpassword" (value)="_newUser.data['user'].password===undefined? '' : _newUser.data['user'].password" (input)="_newUser.data['user'].password=$event.target.value"
-                    type="password" placeholder="password" class="form-control input-md" required><button class="radius-show">Show</button>                        
+                    type="password" placeholder="password" class="form-control" required><button class="radius-show">Show</button>                        
                 </span>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="rconfirmpassword">ຢັ້ງຢືນລະຫັດຜ່ານ*</label>
-                <input (value)="_newUser.data['user'].confirmpassword===undefined? '' : _newUser.data['user'].confirmpassword" (input)="_newUser.data['user'].confirmpassword=$event.target.value" name="rconfirmpassword" type="password" placeholder="confirm password" class="form-control input-md"
+                <input (value)="_newUser.data['user'].confirmpassword===undefined? '' : _newUser.data['user'].confirmpassword" (input)="_newUser.data['user'].confirmpassword=$event.target.value" name="rconfirmpassword" type="password" placeholder="confirm password" class="form-control"
                     required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="secret">Secret*</label>
-                <input name="secret" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSecret($event)" maxlength="6" type="number" placeholder="secret" class="form-control input-md"
+                <input name="secret" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSecret($event)" maxlength="6" type="number" placeholder="secret" class="form-control"
                     required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="btnGetSecret"></label>
                 <button (click)="getSecret()" name="btnGetSecret" class="btn btn-info mt-3">get secret</button>
+                <label for="submit"></label>
                 <button (click)='register()' name="submit" class="btn main-bg-color btn-block mt-3 langlao">ລົງທະບຽນ</button>
-                <button (click)="get_user_gui()" class="btn main-bg-color btn-block">Get GUI</button>
                 <br><br>
                 <h5 class="text-center langlao display-6">----- ຂ້ອຍມີບັນຊີແລ້ວ -----</h5>
                 <button class="btn main-bg-color-right langlao" style="width:100%" [routerLink]="['/login']">ເຂົ້າສູ່ລະບົບ</button>

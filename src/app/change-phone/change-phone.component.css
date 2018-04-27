@@ -1,0 +1,9 @@
+.main-bg-color-right {
+    background: linear-gradient(to right, rgb(238, 7, 238), rgb(165, 4, 138)) !important;
+    color: whitesmoke !important;
+}
+
+.main-bg-color-right:hover {
+    background: linear-gradient(to right, rgb(185, 8, 185), rgb(230, 26, 196)) !important;
+    color: rgb(255, 255, 255) !important;
+}

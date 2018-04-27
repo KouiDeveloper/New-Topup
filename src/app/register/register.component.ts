@@ -35,6 +35,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
+    if(this._client.logintoken){
+      router.navigate(['/all-menu']);
+    }
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
       if (this._client.data['user'] !== undefined) {
@@ -94,7 +97,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     
   }
   saveClient() {
-    //this.websocketDataServiceService.refreshClient();
+    //// this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     console.log(JSON.stringify(this._client));
   }
@@ -103,7 +106,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('firstHeartBeat', '');
     if (!this._client.gui || this._client.gui === undefined) {
       this._client = this.websocketDataServiceService.getClient();
-      this.websocketDataServiceService.refreshClient();
+      // this.websocketDataServiceService.refreshClient();
       console.log('client loaded');
     } else {
       this.saveClient();
@@ -360,8 +363,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.changeMessage(this._client);
   }
   setOtherMessage() {
@@ -374,13 +377,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.websocketDataServiceService.setOtherMessage(msg);
   }
   shakeHands() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.shakeHands();
   }
   ping_test() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.ping_test();
     this._client.data.message += ' HERE in app component';
     console.log(this._client);
@@ -388,34 +391,34 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   login() {
     // alert(JSON.stringify(this._loginUser));
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.login(this._loginUser); // return to this._client
     this.clearJSONValue(this._loginUser);
   }
   logout() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.logout();
   }
   getUserDetails() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.getUserDetails(this._client.data);
   }
   updateUserDetails() {
-    this._currentUserdetail = JSON.parse(this._userDetailsStr);
-    this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    //this._currentUserdetail = JSON.parse(this._userDetailsStr);
+    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
   }
   get_user_gui() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.get_user_gui();
   }
 
   changepassword() {
-    this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.changePassword(this._currentUserdetail);
     this.clearJSONValue(this._currentUserdetail);
   }
@@ -446,7 +449,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   getSMSConfirm() {
     if (this._client.logintoken) {
-      this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+      // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
       this.websocketDataServiceService.send_confirm_phone_sms(this._currentUserdetail);
     } else {
       alert('login first');
@@ -482,7 +485,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // if (!this._client.gui || this._client.gui === undefined) {
     //   this._client = this.websocketDataServiceService.getClient();
     // }
-    this.websocketDataServiceService.refreshClient();
+    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     this.router.navigate([com]).then(res => {
       // this.websocketDataServiceService.stopService();

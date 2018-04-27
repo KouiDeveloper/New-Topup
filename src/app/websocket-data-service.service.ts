@@ -96,23 +96,23 @@ export class WebsocketDataServiceService implements OnInit {
               this.refreshServerEvent();
               // // console.log(this._client.data['message']);
               if (d['client']['data']['sms'] !== undefined) {
-                // console.log('SMS');
-                // console.log(d['client']['data']['res'].resultDesc);
-                // console.log(d['client']['data']['res'].msisdn);
+                console.log('SMS');
+                console.log(d['client']['data']['res'].resultDesc);
+                console.log(d['client']['data']['res'].msisdn);
               }
               if (d['client']['data']['topup'] !== undefined) {
-                // console.log('topup');
-                // console.log(d['client']['data']['res'].resultDesc);
-                // console.log(d['client']['data']['res'].msisdn);
+                console.log('topup');
+                console.log(d['client']['data']['res'].resultDesc);
+                console.log(d['client']['data']['res'].msisdn);
               }
               if (d['client']['data']['checkbalance'] !== undefined) {
-                // console.log('check balance');
-                // console.log(d['client']['data']['res'].resultDesc);
-                // console.log(d['client']['data']['res'].msisdn);
+                console.log('check balance');
+                console.log(d['client']['data']['res'].resultDesc);
+                console.log(d['client']['data']['res'].msisdn);
               }
               break;
             case 'error-changed':
-              // console.log(d['client']['data']['message']);
+             console.log(d['client']['data']['message']);
               break;
             case 'login-changed':
               // console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
@@ -120,8 +120,17 @@ export class WebsocketDataServiceService implements OnInit {
             case 'message-changed':
               // console.log(d['client']['data']['message']);
               break;
-            case 'forgot-changed':
-              // console.log(d['gui']);
+              case 'forgot-changed':
+              console.log(d);
+              break;
+              case 'online-changed':
+              console.log(d);
+              break;
+              case 'secret-changed':
+              console.log(d);
+              break;
+              case 'phone-changed':
+              console.log(d);
               break;
             default:
               break;

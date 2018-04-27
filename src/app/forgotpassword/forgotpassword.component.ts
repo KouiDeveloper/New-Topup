@@ -510,7 +510,6 @@ export class ForgotpasswordComponent implements OnInit {
     }
   }
   resetPassword(event: any) {
-    alert('reset password ');
     let d: any;
     d = {};
     d.data = {};
@@ -520,7 +519,7 @@ export class ForgotpasswordComponent implements OnInit {
     d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     if (d.data['forgot'] !== undefined && d.data.user['phonenumber'] !== undefined) {
       if (d.data['forgot'].length === 6) {
-        this.websocketDataServiceService.resetPassword(d);
+        this.websocketDataServiceService.resetPassword(d);        
       }
     }
   }
