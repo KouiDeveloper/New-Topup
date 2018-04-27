@@ -339,8 +339,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
         case 'message-changed':
           console.log(d['client']['data']['message']);
           break;
-        case 'forgot-changed':
-          console.log(d['gui']);
+          case 'forgot-changed':
+          console.log(d);
+          break;
+          case 'online-changed':
+          console.log(d);
+          break;
+          case 'secret-changed':
+          console.log(d);
+          break;
+          case 'phone-changed':
+          console.log(d);
           break;
         default:
           break;

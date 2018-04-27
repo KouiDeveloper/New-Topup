@@ -34,6 +34,7 @@ export class ChangePhoneComponent implements OnInit {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
+   
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
         this.readClient(client);
     }));
@@ -310,8 +311,8 @@ export class ChangePhoneComponent implements OnInit {
     if(d!==undefined){
       this._server_event.push(d)
       if (d['command'] !== undefined) {
-        // console.log('changed from server');
-        // console.log(d['command'] + d['command2']);
+        console.log('changed from server');
+        console.log(d['command'] + d['command2']);
         switch (d['command']) {
           case 'notification-changed':
             if (d['client']['data']['sms'] !== undefined) {
@@ -373,8 +374,6 @@ export class ChangePhoneComponent implements OnInit {
     }
   }
   /// END RECEIVING
-
-
 
   //// SENDING
   showNewMessage() {
