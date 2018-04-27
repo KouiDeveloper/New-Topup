@@ -34,6 +34,7 @@ import { TestComponent } from './test/test.component';
 import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AllMenuComponent } from './all-menu/all-menu.component';
+import { HelloClientComponent } from './hello-client/hello-client.component';
 
 
 
@@ -61,7 +62,8 @@ import { AllMenuComponent } from './all-menu/all-menu.component';
     TestComponent,
     LogoutComponent,
     UserInfoComponent,
-    AllMenuComponent
+    AllMenuComponent,
+    HelloClientComponent
   ],
   imports: [
     BrowserModule,

@@ -36,7 +36,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
     if(!this._client.logintoken){
-      router.navigate(['/login']);
+      router.navigate(['/hello-client']);
     }
     console.log(JSON.stringify(this._client));
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {

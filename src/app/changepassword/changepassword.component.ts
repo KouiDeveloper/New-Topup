@@ -35,6 +35,9 @@ export class ChangepasswordComponent implements OnInit {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
+    if(!this._client.logintoken){
+      router.navigate(['/hello-client']);
+    }
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
       if (this._client.data['user'] !== undefined) {
