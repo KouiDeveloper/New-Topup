@@ -1,16 +1,11 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';  // <<<< import it here
-import { WebsocketDataServiceService } from '../websocket-data-service.service';
-import { ChatService, Message } from '../chat.service';
-import { WebsocketService } from '../websocket.service';
+import { WebsocketDataServiceService } from './websocket-data-service.service';
+import { ChatService, Message } from './chat.service';
+import { WebsocketService } from './websocket.service';
 
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [WebsocketDataServiceService, ChatService, WebsocketService]
-})
+
 
 export class LoginComponent implements OnInit, OnDestroy {
   private _message: Message;
@@ -131,7 +126,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           case 'login':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
               console.log(this._client.data['message']);
-              
             } else {
               this.saveClient();
               console.log('LOGIN OK');

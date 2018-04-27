@@ -6,9 +6,6 @@ import { FormsModule } from '@angular/forms';
 
 
 
-
-
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ToggleComponent } from './toggle/toggle.component';
@@ -35,6 +32,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AllMenuComponent } from './all-menu/all-menu.component';
 import { HelloClientComponent } from './hello-client/hello-client.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 
@@ -63,7 +61,8 @@ import { HelloClientComponent } from './hello-client/hello-client.component';
     LogoutComponent,
     UserInfoComponent,
     AllMenuComponent,
-    HelloClientComponent
+    HelloClientComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

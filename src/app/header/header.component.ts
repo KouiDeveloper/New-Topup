@@ -33,6 +33,9 @@ export class HeaderComponent implements OnInit {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
+    if(!this._client.logintoken){
+      router.navigate(['/welcome']);
+    }
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
       if (this._client.data['user'] !== undefined) {
@@ -163,7 +166,7 @@ export class HeaderComponent implements OnInit {
           } else {
             this.saveClient();
             console.log('LOGOUT OK');
-            this.router.navigate(['/login']);
+            this.router.navigate(['/welcome']);
           }
           break;
         case 'get-profile':

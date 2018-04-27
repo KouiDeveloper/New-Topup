@@ -33,6 +33,9 @@ export class AllMenuComponent implements OnInit {
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
     this.loadClient();
+    if(!this._client.logintoken){
+      router.navigate(['/welcome']);
+    }
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
         this.readClient(client);
     }));

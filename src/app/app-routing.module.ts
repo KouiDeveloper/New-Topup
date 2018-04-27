@@ -20,6 +20,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AllMenuComponent } from './all-menu/all-menu.component';
 import { HelloClientComponent } from './hello-client/hello-client.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 const routes: Routes = [
@@ -37,12 +38,13 @@ const routes: Routes = [
   { path: 'transfer-history', component: TransferHistoryComponent },
   { path: 'admin-history', component: AdminHistoryComponent },
   { path: 'items', component: ItemsComponent },
-  { path: 'item-shop', component: ItemShopComponent },  
+  { path: 'item-shop', component: ItemShopComponent },
+  { path: 'hello-client', component: HelloClientComponent },
   { path: 'test', component: TestComponent },
   { path: 'logout', component: AllMenuComponent },
   { path: 'user-info', component: UserInfoComponent }, 
   { path: 'all-menu', component: AllMenuComponent },
-  { path: 'hello-client', component: HelloClientComponent }
+  { path: 'welcome', component: WelcomeComponent }   
 
   
   
