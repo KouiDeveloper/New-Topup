@@ -57,7 +57,7 @@ export class WebsocketDataServiceService implements OnInit {
   }, 1000 * 30);
   timeOut_runner = setTimeout(() => {
     this.shakeHands();
-  }, 1000 * 1);
+  }, 1000 * 3);
 
   public refreshNewUserMessage() {
     this.newUserSource.next(this._newUser);
@@ -88,50 +88,69 @@ export class WebsocketDataServiceService implements OnInit {
       // // alert(d);
       if (d !== undefined) {
         if (d['command'] !== undefined) {
-          // console.log('changed from server');
+          console.log('changed from server');
           // console.log(d['command'] + d['command2']);
+          this._server_event.push(d);
+          this.refreshServerEvent();
           switch (d['command']) {
             case 'notification-changed':
-              this._server_event.push(d);
-              this.refreshServerEvent();
-              // // console.log(this._client.data['message']);
-              if (d['client']['data']['sms'] !== undefined) {
-                console.log('SMS');
-                console.log(d['client']['data']['res'].resultDesc);
-                console.log(d['client']['data']['res'].msisdn);
+              console.log(d);
+              if (d['client']['data']['command'] === 'send-sms') {
+                console.log(d['client'].data.message);
               }
-              if (d['client']['data']['topup'] !== undefined) {
-                console.log('topup');
-                console.log(d['client']['data']['res'].resultDesc);
-                console.log(d['client']['data']['res'].msisdn);
+              if (d['client']['data']['command'] === 'recieved-sms') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['sms'] !== undefined) {
+                  console.log('SMS');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
               }
-              if (d['client']['data']['checkbalance'] !== undefined) {
-                console.log('check balance');
-                console.log(d['client']['data']['res'].resultDesc);
-                console.log(d['client']['data']['res'].msisdn);
+              if (d['client']['data']['command'] === 'send-topup') {
+                console.log(d['client'].data.message);
+              }
+              if (d['client']['data']['command'] === 'recieved-topup') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['topup'] !== undefined) {
+                  console.log('topup');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
+              }
+              if (d['client']['data']['command'] === 'send-check-balance') {
+                console.log(d['client'].data.message);
+              }
+              if (d['client']['data']['command'] === 'recieved-check-balance') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['checkbalance'] !== undefined) {
+                  console.log('topup');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
               }
               break;
-            case 'error-changed':
-             console.log(d['client']['data']['message']);
+             case 'error-changed':
+            console.log(d);
               break;
             case 'login-changed':
-              // console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
+            console.log(d);
               break;
             case 'message-changed':
               // console.log(d['client']['data']['message']);
               break;
-              case 'forgot-changed':
-              console.log(d);
+            case 'forgot-changed':
+            console.log(d);
               break;
-              case 'online-changed':
+              case 'phone-changed':
               console.log(d);
               break;
               case 'secret-changed':
               console.log(d);
               break;
-              case 'phone-changed':
+              case 'online-changed':
               console.log(d);
               break;
+
             default:
               break;
           }
@@ -159,8 +178,8 @@ export class WebsocketDataServiceService implements OnInit {
               if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
                 // console.log(this._client.data['message']);
               } else {
-                this.setClient(this._client);
                 // console.log('LOGIN OK');
+                this.setClient(this._client);
               }
               break;
             case 'get-client':
@@ -309,6 +328,13 @@ export class WebsocketDataServiceService implements OnInit {
                 this.refreshUserDetails();
               }
               break;
+            case 'update-confirm-phone-sms':
+            if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
+              // console.log(this._client.data['message']);
+            } else {
+                console.log(this._client.data['message']);
+            }
+            break;
             default:
               break;
           }
@@ -357,6 +383,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message = JSON.parse(JSON.stringify(this._client));
     this._message.data['user'] = {};
     this._message.data['command'] = 'ping';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
   get_user_gui() {
@@ -365,6 +392,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = {};
     this._message.data['user'] = {};
     this._message.data['command'] = 'get-user-gui';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
@@ -386,6 +414,7 @@ export class WebsocketDataServiceService implements OnInit {
     // console.log('before shakehands' + JSON.stringify(this._client));
     this._message = JSON.parse(JSON.stringify(this._client));
     this._message.data['command'] = 'shake-hands';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // // alert('shake handds');
   }
@@ -395,6 +424,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data['command'] = 'login';
     this._message.data.user = loginuser;
     // // alert(JSON.stringify(this._message));
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
 
@@ -403,6 +433,7 @@ export class WebsocketDataServiceService implements OnInit {
     // if (this._message.logintoken) {
     this._message.data['user'] = {};
     this._message.data['command'] = 'logout';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
@@ -413,6 +444,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = data;
     this._message.data['user'] = {};
     this._message.data['command'] = 'get-profile';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
@@ -423,19 +455,21 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = {};
     this._message.data['user'] = updateUserDetails;
     this._message.data['command'] = 'edit-profile';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
 
   changePassword(u) {
     // this._client.data['user'] = {};
+    // this.refreshClient();
     this._message = JSON.parse(JSON.stringify(this._client));
     // // alert('before change==> ' + JSON.stringify(u));
     // if (this._message.logintoken) {
     this._message.data['command'] = 'change-password';
     this._message.data['user'] = u;
     this._message.data['user'].username = this._message.username;
-
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
@@ -446,6 +480,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = {};
     this._message.data = newuser.data;
     this._message.data['command'] = 'register';
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
 
@@ -458,6 +493,7 @@ export class WebsocketDataServiceService implements OnInit {
       // // alert(JSON.stringify(this._client));
       this._message = JSON.parse(JSON.stringify(this._client));
       this._message.data = this._newUser.data;
+      this._message.data.transaction = this.createTransaction();
       this.sendMsg();
     } else { return ('User is undefined'); }
   }
@@ -471,6 +507,7 @@ export class WebsocketDataServiceService implements OnInit {
       // // alert(JSON.stringify(this._client));
       this._message = JSON.parse(JSON.stringify(this._client));
       this._message.data = this._newUser.data;
+      this._message.data.transaction = this.createTransaction();
       this.sendMsg();
     } else { return ('User is undefined'); }
   }
@@ -492,6 +529,7 @@ export class WebsocketDataServiceService implements OnInit {
       // // alert(JSON.stringify(this._newUser));
       this._message = JSON.parse(JSON.stringify(this._client));
       this._message.data = this._newUser.data;
+      this._message.data.transaction = this.createTransaction();
       this.sendMsg();
     } else { return ('User is undefined'); }
   }
@@ -502,6 +540,7 @@ export class WebsocketDataServiceService implements OnInit {
       // // alert(JSON.stringify(this._client));
       this._message = JSON.parse(JSON.stringify(this._client));
       this._message.data = this._newUser.data;
+      this._message.data.transaction = this.createTransaction();
       this.sendMsg();
     } else { return ('User is undefined'); }
   }
@@ -520,6 +559,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message = JSON.parse(JSON.stringify(this._client));
     this._message.data['command'] = 'send-confirm-phone-sms';
     this._message.data['user'] = user;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
 
@@ -528,13 +568,15 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = data;
     this._message.data['command'] = 'check-confirm-phone-sms';
     // this._client.data['user'].phonenumber=phone;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
-  update_confirm_phone(user) {
+  update_confirm_phone(data) {
     this._message = JSON.parse(JSON.stringify(this._client));
-    this._message.data['user'] = user;
+    this._message.data = data;
     this._message.data['command'] = 'update-confirm-phone-sms';
     // this._client.data['user'].phonenumber=phone;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
 
@@ -542,12 +584,14 @@ export class WebsocketDataServiceService implements OnInit {
     this._message = JSON.parse(JSON.stringify(this._client));
     cu.data['command'] = 'reset-forgot';
     this._message.data = cu.data;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
   checkForgot(cu) {
     this._message = JSON.parse(JSON.stringify(this._client));
     cu.data['command'] = 'check-forgot';
     this._message.data = cu.data;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
   getForgotKeys(cu) {
@@ -566,6 +610,7 @@ export class WebsocketDataServiceService implements OnInit {
     }
     cu.data['command'] = 'submit-forgot';
     this._message.data = cu.data;
+    this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
   getTransaction(c) {
@@ -575,6 +620,7 @@ export class WebsocketDataServiceService implements OnInit {
   }
   checkTransaction(c) {
     this._message = JSON.parse(JSON.stringify(c));
+    this._message.data.transaction = this.createTransaction();
     this._message.command = 'check-transaction';
     this.sendMsg();
   }

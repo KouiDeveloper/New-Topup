@@ -5,14 +5,13 @@
             <h5 class="text-center display-5 langlao">ປ່ຽນເບີໂທລະສັບ</h5>
             <form action="" class="mt-3">
                 <label class="ml-4 langlao smoke-font-color" for="phonenumber">ເບີໂທປັດຈຸບັນ*</label>
-                <input name="phonenumber" (value)="_currentUserdetail.phonenumber===undefined? '' : _currentUserdetail.phonenumber" (input)="_currentUserdetail.phonenumber=$event.target.value" type="number" maxlength="10" placeholder="phonenumber: 205 or 209" class="form-control input-md"
+                <input name="phonenumber" (value)="_newUser.data['user'].phonenumber===undefined? '' : _newUser.data['user'].phonenumber" (input)="_newUser.data['user'].phonenumber=$event.target.value" maxlength="10" placeholder="phonenumber: 205 or 209" class="form-control input-md"
                     required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="newphonenumber">ເບີໂທໃໝ່*</label>
-                <input name="newphonenumber" (value)="_currentUserdetail.newphonenumber===undefined? '' : _currentUserdetail.newphonenumber" (input)="_currentUserdetail.newphonenumber=$event.target.value" type="number" placeholder="phonenumber: 205 or 209" class="form-control input-md"
+                <input name="newphonenumber" (value)="_newUser.data['user'].newphonenumber===undefined? '' : _newUser.data['user'].newphonenumber" (input)="_newUser.data['user'].newphonenumber=$event.target.value" placeholder="phonenumber: 205 or 209" class="form-control input-md"
                     required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="secret">ປ້ອນລະຫັດທີ່ທ່ານໃດ້ຮັບ*</label>
-                <input name="secret" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSMSConfirm($event)" maxlength="6" type="number" placeholder="secret" class="form-control input-md"
-                    required>
+                <input name="secret" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSMSConfirm($event)" maxlength="6" placeholder="secret" class="form-control input-md" required>
                 <label class="mt-3 langlao smoke-font-color" for="secret"></label>
                 <button (click)="getSMSConfirm()" name="btnGetSecret" class="btn btn-outline-secondary mt-3">Get secret</button>
                 <label for="submit"></label>

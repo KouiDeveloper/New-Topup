@@ -269,20 +269,27 @@ export class ChangePhoneComponent implements OnInit {
             break;
           case 'send-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              console.log(this._client.data['message']);
+              alert(this._client.data['message']);
             } else {
               this._currentUserdetail = this._client.data['user'];
-              console.log('send confirm phone sms ok');
+              alert('send confirm phone sms ok');
             }
             break;
           case 'check-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              console.log(this._client.data['message']);
+              alert(this._client.data['message']);
             } else {
               this._currentUserdetail = this._client.data['user'];
-              console.log('check confirm phone sms ok');
+              alert('check confirm phone sms ok');
             }
             break;
+            case 'update-confirm-phone-sms':
+            if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
+              alert(this._client.data['message']);
+            } else {
+              this._currentUserdetail = this._client.data['user'];
+              alert('check confirm phone sms ok');
+            }
           default:
             break;
         }
@@ -306,59 +313,81 @@ export class ChangePhoneComponent implements OnInit {
     
   }
   readServerEvent(event: any): any {
-    // this._server_event
-    const d = event;
-    if(d!==undefined){
-      this._server_event.push(d)
-      if (d['command'] !== undefined) {
-        console.log('changed from server');
-        console.log(d['command'] + d['command2']);
-        switch (d['command']) {
-          case 'notification-changed':
-            if (d['client']['data']['sms'] !== undefined) {
-              console.log('SMS');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            if (d['client']['data']['topup'] !== undefined) {
-              console.log('topup');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            if (d['client']['data']['checkbalance'] !== undefined) {
-              console.log('check balance');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            break;
-          case 'error-changed':
-            console.log(d['client']['data']['message']);
-            break;
-          case 'login-changed':
-            console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
-            break;
-          case 'message-changed':
-            console.log(d['client']['data']['message']);
-            break;
-          case 'forgot-changed':
+    if (event !== undefined) {
+      this._server_event = event;
+      if (this._server_event.length) {
+        const d = this._server_event[this._server_event.length-1];
+        console.log(d);
+        if (d['command'] !== undefined) {
+          console.log('changed from server');
+          // console.log(d['command'] + d['command2']);
+          this._server_event.push(d);
+          //this.refreshServerEvent();
+          switch (d['command']) {
+            case 'notification-changed':
+              console.log(d);
+              if (d['client']['data']['command'] === 'send-sms') {
+                console.log(d['client'].data.message);
+              }
+              if (d['client']['data']['command'] === 'recieved-sms') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['sms'] !== undefined) {
+                  console.log('SMS');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
+              }
+              if (d['client']['data']['command'] === 'send-topup') {
+                console.log(d['client'].data.message);
+              }
+              if (d['client']['data']['command'] === 'recieved-topup') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['topup'] !== undefined) {
+                  console.log('topup');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
+              }
+              if (d['client']['data']['command'] === 'send-check-balance') {
+                console.log(d['client'].data.message);
+              }
+              if (d['client']['data']['command'] === 'recieved-check-balance') {
+                console.log(d['client'].data.message);
+                if (d['client']['data']['checkbalance'] !== undefined) {
+                  console.log('topup');
+                  console.log(d['client']['data']['res'].resultDesc);
+                  console.log(d['client']['data']['res'].msisdn);
+                }
+              }
+              break;
+             case 'error-changed':
             console.log(d);
-            break;
-            case 'online-changed':
+              break;
+            case 'login-changed':
             console.log(d);
-            break;
-            case 'secret-changed':
+              break;
+            case 'message-changed':
+              // console.log(d['client']['data']['message']);
+              break;
+            case 'forgot-changed':
             console.log(d);
-            break;
-            case 'phone-changed':
-            console.log(d);
-            break;
-          default:
-            break;
+              break;
+              case 'phone-changed':
+              console.log(d);
+              break;
+              case 'secret-changed':
+              console.log(d);
+              break;
+              case 'online-changed':
+              console.log(d);
+              break;
+            default:
+              break;
+          }
+          // // console.log(msg);
         }
-        // // console.log(msg);
       }
     }
-    
   }
   readCurrentUserDetail(c: any): any {
     // this._currentUserDetail
@@ -465,7 +494,7 @@ export class ChangePhoneComponent implements OnInit {
   getSMSConfirm() {
     if (this._client.logintoken) {
       // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-      this.websocketDataServiceService.send_confirm_phone_sms(this._currentUserdetail);
+      this.websocketDataServiceService.send_confirm_phone_sms(this._newUser['data'].user);
     } else {
       alert('login first');
     }
@@ -474,8 +503,9 @@ export class ChangePhoneComponent implements OnInit {
     if (this._client.logintoken) {
       if (this._newUser.data['secret'] !== undefined) {
         if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          this.websocketDataServiceService.check_confirm_phone_sms(this._newUser);
+          //this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+
+          this.websocketDataServiceService.check_confirm_phone_sms(this._newUser.data);
         }
       }
     } else {
@@ -484,16 +514,18 @@ export class ChangePhoneComponent implements OnInit {
 
   }
   changePhoneNumber() {
-    if (this._client.logintoken) {
+if (this._client.logintoken) {
       if (this._newUser.data['secret'] !== undefined) {
         if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+          // this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+          //this._newUser.data.user = this._currentUserdetail;
+          alert(JSON.stringify(this._currentUserdetail));
+          alert(JSON.stringify(this._newUser));
           this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
-          alert('Your password has been changed successfully! Thank you');
         }
       }
     } else {
-      alert('login first');
+      console.log('login first');
     }
   }
   goTo(com) {

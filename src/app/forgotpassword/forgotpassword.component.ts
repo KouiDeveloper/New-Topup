@@ -210,6 +210,8 @@ export class ForgotpasswordComponent implements OnInit {
             console.log(this._client.data['message']);
           } else {
             console.log('reset forgot ok');
+            
+            this.router.navigate(['/test']);
           }
           break;
         case 'submit-forgot':
