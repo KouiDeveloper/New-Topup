@@ -39,26 +39,17 @@ export class UbalanceComponent implements OnInit {
       router.navigate(['/hello-client']);
     }
     console.log(JSON.stringify(this._client));
-    this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
-     /// this._client = client;
-     /// if (this._client.data['user'] !== undefined) {
-        this.readClient(client);
+      this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
+      this.readClient(client);
+    }));
+      this._subs.push(this.websocketDataServiceService.newUserSource.subscribe(client => {
+      this.readNewUser(client);
      // }
     }));
-    this._subs.push(this.websocketDataServiceService.newUserSource.subscribe(client => {
-     // this._newUser = client;
-     // if (this._newUser !== undefined) {
-       // alert('new user update ' + this._newUser.data.user['message']);
-        this.readNewUser(client);
-     // }
-    }));
-    this._subs.push(this.websocketDataServiceService.eventSource.subscribe(events => {
-      //this._server_event.push(events);
+      this._subs.push(this.websocketDataServiceService.eventSource.subscribe(events => {
       this.readServerEvent(events);
     }));
-    this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
-      // this._currentUserdetail = user;
-      // this._userDetailsStr = JSON.stringify(this._currentUserdetail);
+      this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
       this.readCurrentUserDetail(user);
     }));
 
@@ -114,8 +105,6 @@ export class UbalanceComponent implements OnInit {
   }
 /// INIT FUNCTIONS
 
-
-
   /// *************RECEIVING  */
   readClient(c): any {
     // this._client
@@ -145,14 +134,6 @@ export class UbalanceComponent implements OnInit {
           console.log('ping OK');
           // // alert(this._client.data['message']);
           break;
-        case 'get-client':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('get-client OK');
-          }
-          break;
- 
         case 'get-profile':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
             console.log(this._client.data['message']);
@@ -161,51 +142,7 @@ export class UbalanceComponent implements OnInit {
             const u = JSON.parse(JSON.stringify(c.data['user']));
             this._currentUserdetail = u;
             console.log('get user details ok');
-          }
-          break;
-        case 'get-transaction':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert('change password OK');
-            console.log('get transaction id ok');
-          }
-          break;
-        case 'check-transaction':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert('change password OK');
-            console.log('check transaction id ok');
-          }
-          break;
-       
-        case 'get-user-gui':
-          // console.log('here get user gui ');
-          // // console.log(this._client);
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert(this._client.data['user'].gui);
-            console.log('get user gui ok');
-          }
-          break;
-        
-        case 'get-secret':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._newUser.data = this._client.data;
-            console.log('get secret  ok');
-          }
-          break;
-        case 'register':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._newUser.data = this._client.data;
-            console.log('register ok');
-          }
+          } 
           break;
         default:
           break;
@@ -228,49 +165,9 @@ export class UbalanceComponent implements OnInit {
   readServerEvent(event: any): any {
     // this._server_event
     const d = event;
-    if (d['command'] !== undefined) {
-      // console.log('changed from server');
-      // console.log(d['command'] + d['command2']);
-      switch (d['command']) {
-        case 'notification-changed':
-          if (d['client']['data']['sms'] !== undefined) {
-            console.log('SMS');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          if (d['client']['data']['topup'] !== undefined) {
-            console.log('topup');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          if (d['client']['data']['checkbalance'] !== undefined) {
-            console.log('check balance');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          break;
-        case 'error-changed':
-          console.log(d['client']['data']['message']);
-          break;
-        case 'login-changed':
-          console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
-          break;
-        case 'message-changed':
-          console.log(d['client']['data']['message']);
-          break;
-        case 'forgot-changed':
-          console.log(d['gui']);
-          break;
-        default:
-          break;
-      }
-      // // console.log(msg);
-    }
+   
   }
-  readCurrentUserDetail(c: any): any {
-    // this._currentUserDetail
-    //alert(JSON.stringify(c));
-    //alert(JSON.stringify(this._client.data.user));
+  readCurrentUserDetail(c: any): any {    
     this._currentUserdetail = c;
     this._userDetailsStr = JSON.stringify(this._currentUserdetail);
   }
@@ -284,9 +181,7 @@ export class UbalanceComponent implements OnInit {
 
   //// SENDING
   showNewMessage() {
-    this._client.data.message = 'changed from show message';
-    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
+    this._client.data.message = 'changed from show message';    
     this.websocketDataServiceService.changeMessage(this._client);
   }
   setOtherMessage() {
@@ -298,96 +193,28 @@ export class UbalanceComponent implements OnInit {
    // msg.data['transaction'] = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.setOtherMessage(msg);
   }
-  shakeHands() {
-   // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    ///this.websocketDataServiceService.refreshClient();
+  shakeHands() {   
     this.websocketDataServiceService.shakeHands();
   }
-  ping_test() {
-    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    //this.websocketDataServiceService.refreshClient();
+  ping_test() {    
     this.websocketDataServiceService.ping_test();
     this._client.data.message += ' HERE in app component';
     console.log(this._client);
   }
 
   getUserDetails() {
-    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this._client.data.user=this._currentUserdetail;
-    //this.websocketDataServiceService.refreshClient();
+    this._client.data.user=this._currentUserdetail;   
     this.websocketDataServiceService.getUserDetails(this._client.data);
   }
-  updateUserDetails() {
-    this._currentUserdetail = JSON.parse(this._userDetailsStr);
-    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
-    
-  }
-  get_user_gui() {
-    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    //this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.get_user_gui();
-  }
+
  
   goTo(com) {
     console.log(JSON.stringify(this._client));
-    // if (!this._client.gui || this._client.gui === undefined) {
-    //   this._client = this.websocketDataServiceService.getClient();
-    // }
-    //this.websocketDataServiceService.refreshClient();
-    //this.websocketDataServiceService.setClient(this._client);
     this.router.navigate([com]).then(res => {
-      // this.websocketDataServiceService.stopService();
-      // alert(res);
     }).catch(err => {
       // alert(err);
     });
   }
-
-  checkForgot(event: any) {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-   // d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    if (d.data['forgot'] !== undefined) {
-      if (d.data['forgot'].length === 6) {
-        this.websocketDataServiceService.checkForgot(d);
-      }
-    }
-  }
-  resetPassword(event: any) {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-    //d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    if (d.data['forgot'] !== undefined && d.data.user['phonenumber'] !== undefined) {
-      if (d.data['forgot'].length === 6) {
-        this.websocketDataServiceService.resetPassword(d);
-      }
-    }
-  }
-  getForgotKeys() {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-
-    //d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    alert(JSON.stringify(d));
-    // alert(JSON.stringify(this._currentUserdetail));
-    if (d.data.user['phonenumber'] !== undefined) {
-      this.websocketDataServiceService.getForgotKeys(d);
-    } else { alert('forgot key is empty'); }
-  }
-
   createTransaction() {
     let x;
     this._trans.push(x = this.websocketDataServiceService.createTransaction());

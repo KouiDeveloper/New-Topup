@@ -34,6 +34,7 @@ import { AllMenuComponent } from './all-menu/all-menu.component';
 import { HelloClientComponent } from './hello-client/hello-client.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ChangePhoneComponent } from './change-phone/change-phone.component';
+import { ResiterSuccessPageComponent } from './register-success-page/resiter-success-page.component';
 
 
 
@@ -64,7 +65,8 @@ import { ChangePhoneComponent } from './change-phone/change-phone.component';
     AllMenuComponent,
     HelloClientComponent,
     WelcomeComponent,
-    ChangePhoneComponent
+    ChangePhoneComponent,
+    ResiterSuccessPageComponent
   ],
   imports: [
     BrowserModule,

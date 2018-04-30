@@ -273,7 +273,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           } else {
             this._newUser.data = this._client.data;
             console.log('register ok');
-            // this.router.navigate(['/login'])
+            this.router.navigate(['/register-success-page']);            
           }
           break;
         case 'send-confirm-phone-sms':

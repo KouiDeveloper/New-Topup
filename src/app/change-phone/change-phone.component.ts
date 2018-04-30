@@ -269,27 +269,31 @@ export class ChangePhoneComponent implements OnInit {
             break;
           case 'send-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              alert(this._client.data['message']);
+              //alert(this._client.data['message']);
             } else {
               this._currentUserdetail = this._client.data['user'];
-              alert('send confirm phone sms ok');
+              //alert('send confirm phone sms ok');
             }
             break;
           case 'check-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              alert(this._client.data['message']);
+             // alert(this._client.data['message']);
             } else {
               this._currentUserdetail = this._client.data['user'];
-              alert('check confirm phone sms ok');
+              //alert('check confirm phone sms ok');
             }
             break;
             case 'update-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              alert(this._client.data['message']);
+              //alert(this._client.data['message']);
             } else {
               this._currentUserdetail = this._client.data['user'];
-              alert('check confirm phone sms ok');
+              this.saveClient();
+              this.logout();
+              this.router.navigate(['/hello-client']);
+              //alert('check confirm phone sms ok');
             }
+            break;
           default:
             break;
         }
@@ -519,8 +523,8 @@ if (this._client.logintoken) {
         if (this._newUser.data['secret'].length === 6) {
           // this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
           //this._newUser.data.user = this._currentUserdetail;
-          alert(JSON.stringify(this._currentUserdetail));
-          alert(JSON.stringify(this._newUser));
+          //alert(JSON.stringify(this._currentUserdetail));
+          //alert(JSON.stringify(this._newUser));
           this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
         }
       }

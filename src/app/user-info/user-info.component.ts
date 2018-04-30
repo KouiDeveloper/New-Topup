@@ -37,47 +37,28 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.loadClient();
-    if (!this._client.logintoken) {
-      router.navigate(["/hello-client"]);
+    if(!this._client.logintoken){
+      router.navigate(['/hello-client']);
     }
     console.log(JSON.stringify(this._client));
-    this._subs.push(
-      this.websocketDataServiceService.clientSource.subscribe(client => {
-        /// this._client = client;
-        /// if (this._client.data['user'] !== undefined) {
-        this.readClient(client);
-        // }
-      })
-    );
-    this._subs.push(
-      this.websocketDataServiceService.newUserSource.subscribe(client => {
-        // this._newUser = client;
-        // if (this._newUser !== undefined) {
-        // alert('new user update ' + this._newUser.data.user['message']);
-        this.readNewUser(client);
-        // }
-      })
-    );
-    this._subs.push(
-      this.websocketDataServiceService.eventSource.subscribe(events => {
-        //this._server_event.push(events);
-        this.readServerEvent(events);
-      })
-    );
-    this._subs.push(
-      this.websocketDataServiceService.currentUserSource.subscribe(user => {
-        // this._currentUserdetail = user;
-        // this._userDetailsStr = JSON.stringify(this._currentUserdetail);
-        this.readCurrentUserDetail(user);
-      })
-    );
+      this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
+      this.readClient(client);
+    }));
+      this._subs.push(this.websocketDataServiceService.newUserSource.subscribe(client => {
+      this.readNewUser(client);
+     // }
+    }));
+      this._subs.push(this.websocketDataServiceService.eventSource.subscribe(events => {
+      this.readServerEvent(events);
+    }));
+      this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
+      this.readCurrentUserDetail(user);
+    }));
 
-    this._subs.push(
-      this.websocketDataServiceService.otherSource.subscribe(msg => {
-        //this._otherMessage = msg;
-        this.readOtherMessage(msg);
-      })
-    );
+    this._subs.push(this.websocketDataServiceService.otherSource.subscribe(msg => {
+      //this._otherMessage = msg;
+      this.readOtherMessage(msg);
+    }));
   }
   //// END WEBSOCKET LAUNCHING
 
@@ -232,87 +213,9 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     }
   }
   readServerEvent(event: any): any {
-    if (event !== undefined) {
-      this._server_event = event;
-      if (this._server_event.length) {
-        const d = this._server_event[this._server_event.length-1];
-        console.log(d);
-        if (d['command'] !== undefined) {
-          console.log('changed from server');
-          // console.log(d['command'] + d['command2']);
-          this._server_event.push(d);
-          //this.refreshServerEvent();
-          switch (d['command']) {
-            case 'notification-changed':
-              console.log(d);
-              if (d['client']['data']['command'] === 'send-sms') {
-                console.log(d['client'].data.message);
-              }
-              if (d['client']['data']['command'] === 'recieved-sms') {
-                console.log(d['client'].data.message);
-                if (d['client']['data']['sms'] !== undefined) {
-                  console.log('SMS');
-                  console.log(d['client']['data']['res'].resultDesc);
-                  console.log(d['client']['data']['res'].msisdn);
-                }
-              }
-              if (d['client']['data']['command'] === 'send-topup') {
-                console.log(d['client'].data.message);
-              }
-              if (d['client']['data']['command'] === 'recieved-topup') {
-                console.log(d['client'].data.message);
-                if (d['client']['data']['topup'] !== undefined) {
-                  console.log('topup');
-                  console.log(d['client']['data']['res'].resultDesc);
-                  console.log(d['client']['data']['res'].msisdn);
-                }
-              }
-              if (d['client']['data']['command'] === 'send-check-balance') {
-                console.log(d['client'].data.message);
-              }
-              if (d['client']['data']['command'] === 'recieved-check-balance') {
-                console.log(d['client'].data.message);
-                if (d['client']['data']['checkbalance'] !== undefined) {
-                  console.log('topup');
-                  console.log(d['client']['data']['res'].resultDesc);
-                  console.log(d['client']['data']['res'].msisdn);
-                }
-              }
-              break;
-             case 'error-changed':
-            console.log(d);
-              break;
-            case 'login-changed':
-            console.log(d);
-              break;
-            case 'message-changed':
-              // console.log(d['client']['data']['message']);
-              break;
-            case 'forgot-changed':
-            console.log(d);
-              break;
-              case 'phone-changed':
-              console.log(d);
-              break;
-              case 'secret-changed':
-              console.log(d);
-              break;
-              case 'online-changed':
-              console.log(d);
-              break;
-
-            default:
-              break;
-          }
-          // // console.log(msg);
-        }
-      }
-    }
+  
   }
   readCurrentUserDetail(c: any): any {
-    // this._currentUserDetail
-    //alert(JSON.stringify(c));
-    //alert(JSON.stringify(this._client.data.user));
     this._currentUserdetail = c;
     this._userDetailsStr = JSON.stringify(this._currentUserdetail);
   }
@@ -365,8 +268,6 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
   }
   get_user_gui() {
-    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    //this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.get_user_gui();
   }
 

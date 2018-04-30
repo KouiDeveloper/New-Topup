@@ -22,6 +22,7 @@ import { AllMenuComponent } from './all-menu/all-menu.component';
 import { HelloClientComponent } from './hello-client/hello-client.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ChangePhoneComponent } from './change-phone/change-phone.component';
+import { ResiterSuccessPageComponent } from './register-success-page/resiter-success-page.component';
 
 
 const routes: Routes = [
@@ -46,7 +47,8 @@ const routes: Routes = [
   { path: 'user-info', component: UserInfoComponent }, 
   { path: 'all-menu', component: AllMenuComponent },
   { path: 'welcome', component: WelcomeComponent },
-  { path: 'change-phone', component: ChangePhoneComponent }
+  { path: 'change-phone', component: ChangePhoneComponent },
+  { path: 'register-success-page', component: ResiterSuccessPageComponent }
 
   
   

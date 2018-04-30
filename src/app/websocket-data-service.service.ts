@@ -221,8 +221,8 @@ export class WebsocketDataServiceService implements OnInit {
             case 'change-password':
               if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
                 // console.log(this._client.data['message']);
-              } else {
-                // // alert('change password OK');
+              } else {                
+                 //alert('change password OK');
               }
               break;
             case 'get-transaction':
