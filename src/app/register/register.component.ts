@@ -1,9 +1,12 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy,ElementRef,ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';  // <<<< import it here
 import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
+
+import { ViewEncapsulation} from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'register',
@@ -31,9 +34,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private _otherMessage: any = {};
   private _subs: any = [];
   private _trans: any = [];
-
+  @ViewChild('content') content: ElementRef;
   /// WEBSOCKET LAUNCHING
-  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
+  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router,private modalService: NgbModal) {
     this.loadClient();
     if(this._client.logintoken){
       router.navigate(['/all-menu']);
@@ -68,6 +71,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }));
 
   }
+  // show client content ++++++++++ //
+
+  showclient(content){
+    this.modalService.open(content,{ centered: true }); 
+    // alert(content);   
+} 
+
+
 //// END WEBSOCKET LAUNCHING
 
 
@@ -272,8 +283,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
             console.log(this._client.data['message']);
           } else {
             this._newUser.data = this._client.data;
-            console.log('register ok');
-            this.router.navigate(['/register-success-page']);            
+            this.saveClient();
+            this.showclient(this.content);
+            this.router.navigate(['/login']);
+            // this.router.navigate(['/register-success-page']);            
           }
           break;
         case 'send-confirm-phone-sms':

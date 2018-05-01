@@ -35,6 +35,7 @@ import { HelloClientComponent } from './hello-client/hello-client.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ChangePhoneComponent } from './change-phone/change-phone.component';
 import { ResiterSuccessPageComponent } from './register-success-page/resiter-success-page.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 
@@ -66,7 +67,8 @@ import { ResiterSuccessPageComponent } from './register-success-page/resiter-suc
     HelloClientComponent,
     WelcomeComponent,
     ChangePhoneComponent,
-    ResiterSuccessPageComponent
+    ResiterSuccessPageComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

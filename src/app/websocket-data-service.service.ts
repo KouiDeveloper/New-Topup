@@ -98,7 +98,7 @@ export class WebsocketDataServiceService implements OnInit {
               if (d['client']['data']['command'] === 'send-sms') {
                 console.log(d['client'].data.message);
               }
-              if (d['client']['data']['command'] === 'recieved-sms') {
+              if (d['client']['data']['command'] === 'received-sms') {
                 console.log(d['client'].data.message);
                 if (d['client']['data']['sms'] !== undefined) {
                   console.log('SMS');
@@ -109,7 +109,7 @@ export class WebsocketDataServiceService implements OnInit {
               if (d['client']['data']['command'] === 'send-topup') {
                 console.log(d['client'].data.message);
               }
-              if (d['client']['data']['command'] === 'recieved-topup') {
+              if (d['client']['data']['command'] === 'received-topup') {
                 console.log(d['client'].data.message);
                 if (d['client']['data']['topup'] !== undefined) {
                   console.log('topup');
@@ -120,7 +120,7 @@ export class WebsocketDataServiceService implements OnInit {
               if (d['client']['data']['command'] === 'send-check-balance') {
                 console.log(d['client'].data.message);
               }
-              if (d['client']['data']['command'] === 'recieved-check-balance') {
+              if (d['client']['data']['command'] === 'received-check-balance') {
                 console.log(d['client'].data.message);
                 if (d['client']['data']['checkbalance'] !== undefined) {
                   console.log('topup');
@@ -150,7 +150,6 @@ export class WebsocketDataServiceService implements OnInit {
               case 'online-changed':
               console.log(d);
               break;
-
             default:
               break;
           }

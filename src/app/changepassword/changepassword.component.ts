@@ -5,6 +5,8 @@ import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
 
+import {ElementRef,ViewChild,ViewEncapsulation} from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-changepassword',
@@ -31,9 +33,9 @@ export class ChangepasswordComponent implements OnInit {
   private _otherMessage: any = {};
   private _subs: any = [];
   private _trans: any = [];
-
+  @ViewChild('content') content: ElementRef;
   /// WEBSOCKET LAUNCHING
-  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
+  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router,private modalService: NgbModal) {
     this.loadClient();
     if(!this._client.logintoken){
       router.navigate(['/hello-client']);
@@ -66,10 +68,10 @@ export class ChangepasswordComponent implements OnInit {
       this._otherMessage = msg;
       this.readOtherMessage(msg);
     }));
-
   }
-//// END WEBSOCKET LAUNCHING
 
+  
+//// END WEBSOCKET LAUNCHING
 
   /// OTHER FUNCTIONS
   private clearJSONValue(u) {
@@ -93,9 +95,17 @@ export class ChangepasswordComponent implements OnInit {
     this._otherMessage = {};
   }
   ngOnDestroy() {
-    console.log('STOP SERVICE');
+    console.log('STOP SERVICE');   
     
   }
+
+  // show alert for client
+
+  showclient(content){
+      this.modalService.open(content,{ centered: true }); 
+      // alert(content);   
+  } 
+
   saveClient() {
     //// this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
@@ -113,8 +123,6 @@ export class ChangepasswordComponent implements OnInit {
     }
   }
 /// INIT FUNCTIONS
-
-
 
   /// *************RECEIVING  */
   readClient(c): any {
@@ -153,9 +161,8 @@ export class ChangepasswordComponent implements OnInit {
             } else {
               this.logout();
               this.saveClient();
-              this.router.navigate(['/welcome']);
-              //alert('change password OK');
-              console.log('change password OK ');
+              this.showclient(this.content);
+              this.router.navigate(['welcome']);
             }
             break;
           default:

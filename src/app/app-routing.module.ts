@@ -23,6 +23,7 @@ import { HelloClientComponent } from './hello-client/hello-client.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ChangePhoneComponent } from './change-phone/change-phone.component';
 import { ResiterSuccessPageComponent } from './register-success-page/resiter-success-page.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 const routes: Routes = [
@@ -48,7 +49,8 @@ const routes: Routes = [
   { path: 'all-menu', component: AllMenuComponent },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'change-phone', component: ChangePhoneComponent },
-  { path: 'register-success-page', component: ResiterSuccessPageComponent }
+  { path: 'register-success-page', component: ResiterSuccessPageComponent },
+  { path: 'modal', component: ModalComponent }
 
   
   

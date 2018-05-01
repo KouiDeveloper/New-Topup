@@ -27,8 +27,28 @@
                 <br><br>
                 <h5 class="text-center langlao display-6">----- ຂ້ອຍມີບັນຊີແລ້ວ -----</h5>
                 <button class="btn main-bg-color-right langlao" style="width:100%" [routerLink]="['/login']">ເຂົ້າສູ່ລະບົບ</button>
+                <br>
             </form>
         </div>
     </div>
-
 </div>
+
+<button class="btn btn-success" (click)="showclient(content)">Modal</button>
+
+<!-- the tag below make for alert  -->
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title text-center langlao">ປ່ຽນລະຫັດຜ່ານ</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center langlao">ສຳເລັດການລົງທະບຽນ ກະລຸນາລ໋ອກອິນອີກຄັ້ງ&hellip;</p>
+        <p class="text-center langlao">ຂໍຂອບໃຈ&hellip;</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light langlao" (click)="c('Close click')">ຕົກລົງ</button>
+    </div>
+</ng-template>

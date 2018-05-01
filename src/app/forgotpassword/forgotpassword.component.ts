@@ -1,10 +1,12 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy,ElementRef,ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';  // <<<< import it here
 import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
 
+import { ViewEncapsulation} from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -32,8 +34,11 @@ export class ForgotpasswordComponent implements OnInit {
   private _subs: any = [];
   private _trans: any = [];
 
+  @ViewChild('content') content: ElementRef;
+  @ViewChild('keyempty') keyempty: ElementRef;
+
   /// WEBSOCKET LAUNCHING
-  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router) {
+  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router,private modalService: NgbModal) {
     this.loadClient();    
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
@@ -65,6 +70,22 @@ export class ForgotpasswordComponent implements OnInit {
     }));
 
   }
+
+    // show client content ++++++++++ //
+
+    showclient(content){
+      this.modalService.open(content,{ centered: true }); 
+      // alert(content);   
+  } 
+
+   // show client content ++++++++++ //
+
+   showkeyempty(keyempty){
+    this.modalService.open(keyempty,{ centered: true }); 
+    // alert(content);   
+} 
+
+  
 //// END WEBSOCKET LAUNCHING
 
 
@@ -210,8 +231,9 @@ export class ForgotpasswordComponent implements OnInit {
             console.log(this._client.data['message']);
           } else {
             console.log('reset forgot ok');
-            
-            this.router.navigate(['/test']);
+            this.saveClient();
+            this.showclient(this.content);            
+            this.router.navigate(['/login']);
           }
           break;
         case 'submit-forgot':
@@ -367,7 +389,6 @@ export class ForgotpasswordComponent implements OnInit {
   /// END RECEIVING
 
 
-
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
@@ -493,14 +514,8 @@ export class ForgotpasswordComponent implements OnInit {
   }
   goTo(com) {
     console.log(JSON.stringify(this._client));
-    // if (!this._client.gui || this._client.gui === undefined) {
-    //   this._client = this.websocketDataServiceService.getClient();
-    // }
-    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     this.router.navigate([com]).then(res => {
-      // this.websocketDataServiceService.stopService();
-      // alert(res);
     }).catch(err => {
       // alert(err);
     });
@@ -543,11 +558,14 @@ export class ForgotpasswordComponent implements OnInit {
     d.data.forgot = this._currentUserdetail.forgot;
 
     d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    alert(JSON.stringify(d));
+    // alert(JSON.stringify(d));
     // alert(JSON.stringify(this._currentUserdetail));
     if (d.data.user['phonenumber'] !== undefined) {
       this.websocketDataServiceService.getForgotKeys(d);
-    } else { alert('forgot key is empty'); }
+    } else {
+      // alert('forgot key is empty');
+      this.showkeyempty(this.keyempty);        
+    }
   }
 
   createTransaction() {
