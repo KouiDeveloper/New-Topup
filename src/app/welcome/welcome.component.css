@@ -9,7 +9,7 @@
 .cursor {
     cursor: pointer;
     height: 180px;
-    border: 10px solid;
+    border: 5px solid;
     border-color: rgb(212, 198, 198);
     border-radius: 30px 0px 50px 0px;
 }

@@ -1,5 +1,12 @@
 /* start style header */
 
+.bg-header {
+    color: #fff;
+    background: linear-gradient(to right, rgb(165, 4, 138), rgb(238, 7, 238));
+    border-color: rgb(212, 198, 198) !important;
+    border-bottom: 3px solid;
+}
+
 a {
     cursor: pointer;
 }
