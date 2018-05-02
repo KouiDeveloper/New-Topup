@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this._subs.push(this.websocketDataServiceService.newUserSource.subscribe(client => {
       this._newUser = client;
       if (this._newUser !== undefined) {
-        alert('new user update ' + this._newUser.data.user['message']);
+        //alert('new user update ' + this._newUser.data.user['message']);
         this.readNewUser(client);
       }
     }));
@@ -148,51 +148,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
           console.log('ping OK');
           // // alert(this._client.data['message']);
           break;
-        case 'login':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('LOGIN OK');           
-          }
-          break;
-        case 'get-client':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('get-client OK');
-          }
-          break;
         case 'shake-hands':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
             // // console.log(this._client);
             console.log(this._client.data['message']);
           } else {
             console.log('shake hands ok');
-          }
-          break;
-        case 'logout':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('LOGOUT OK');
-          }
-          break;
-        case 'get-profile':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // console.log(this._client.data['user']);
-            const u = JSON.parse(JSON.stringify(c.data['user']));
-            this._currentUserdetail = u;
-            console.log('get user details ok');
-          }
-          break;
-        case 'change-password':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert('change password OK');
-            console.log('change password OK');
           }
           break;
         case 'get-transaction':
@@ -205,34 +166,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
           break;
         case 'check-transaction':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
+            console.log(this._client.data['message']);           
           } else {
             // // alert('change password OK');
             console.log('check transaction id ok');
-          }
-          break;
-        case 'check-forgot':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert(this._client.data['message']);
-            console.log('check forgot ok');
-          }
-          break;
-        case 'reset-forgot':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('reset forgot ok');
-          }
-          break;
-        case 'submit-forgot':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert(this._client.data['message']);
-            this._currentUserdetail = this._client.data['user'];
-            console.log('submit forgot ok');
           }
           break;
         case 'get-user-gui':
@@ -264,7 +201,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           break;
         case 'check-secret':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
+            console.log(this._client.data['message']);            
           } else {
             this._newUser.data = this._client.data;
             console.log('check secret ok');
@@ -273,6 +210,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         case 'get-secret':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
             console.log(this._client.data['message']);
+            alert("notworking");
           } else {
             this._newUser.data = this._client.data;
             console.log('get secret  ok');
@@ -287,22 +225,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.showclient(this.content);
             this.router.navigate(['/login']);
             // this.router.navigate(['/register-success-page']);            
-          }
-          break;
-        case 'send-confirm-phone-sms':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._currentUserdetail = this._client.data['user'];
-            console.log('send confirm phone sms ok');
-          }
-          break;
-        case 'check-confirm-phone-sms':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._currentUserdetail = this._client.data['user'];
-            console.log('check confirm phone sms ok');
           }
           break;
         default:
@@ -333,39 +255,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
             console.log(d['client']['data']['res'].resultDesc);
             console.log(d['client']['data']['res'].msisdn);
           }
-          if (d['client']['data']['topup'] !== undefined) {
-            console.log('topup');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          if (d['client']['data']['checkbalance'] !== undefined) {
-            console.log('check balance');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          break;
         case 'error-changed':
           console.log(d['client']['data']['message']);
           break;
-        case 'login-changed':
-          console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
-          break;
-        case 'message-changed':
-          console.log(d['client']['data']['message']);
-          break;
-          case 'forgot-changed':
-          console.log(d);
-          break;
-          case 'online-changed':
-          console.log(d);
-          break;
           case 'secret-changed':
           console.log(d);
-          break;
-          case 'phone-changed':
-          console.log(d);
-          break;
-        default:
           break;
       }
       // // console.log(msg);
@@ -412,39 +306,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     console.log(this._client);
   }
 
-  login() {
-    // alert(JSON.stringify(this._loginUser));
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.login(this._loginUser); // return to this._client
-    this.clearJSONValue(this._loginUser);
-  }
-  logout() {
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.logout();
-  }
-  getUserDetails() {
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.getUserDetails(this._client.data);
-  }
-  updateUserDetails() {
-    //this._currentUserdetail = JSON.parse(this._userDetailsStr);
-    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
-  }
+
   get_user_gui() {
     // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.get_user_gui();
   }
 
-  changepassword() {
-    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.changePassword(this._currentUserdetail);
-    this.clearJSONValue(this._currentUserdetail);
-  }
   register() {
     this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.register(this._newUser);
@@ -470,39 +338,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.checkPhoneNumber(this._newUser);
   }
-  getSMSConfirm() {
-    if (this._client.logintoken) {
-      // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-      this.websocketDataServiceService.send_confirm_phone_sms(this._currentUserdetail);
-    } else {
-      alert('login first');
-    }
-  }
-  checkSMSConfirm($event: any) {
-    if (this._client.logintoken) {
-      if (this._newUser.data['secret'] !== undefined) {
-        if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          this.websocketDataServiceService.check_confirm_phone_sms(this._newUser);
-        }
-      }
-    } else {
-      alert('login first');
-    }
+  
 
-  }
-  changePhoneNumber() {
-    if (this._client.logintoken) {
-      if (this._newUser.data['secret'] !== undefined) {
-        if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
-        }
-      }
-    } else {
-      alert('login first');
-    }
-  }
   goTo(com) {
     console.log(JSON.stringify(this._client));
     // if (!this._client.gui || this._client.gui === undefined) {
@@ -517,51 +354,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       // alert(err);
     });
   }
-
-  checkForgot(event: any) {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-    d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    if (d.data['forgot'] !== undefined) {
-      if (d.data['forgot'].length === 6) {
-        this.websocketDataServiceService.checkForgot(d);
-      }
-    }
-  }
-  resetPassword(event: any) {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-    d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    if (d.data['forgot'] !== undefined && d.data.user['phonenumber'] !== undefined) {
-      if (d.data['forgot'].length === 6) {
-        this.websocketDataServiceService.resetPassword(d);
-      }
-    }
-  }
-  getForgotKeys() {
-    let d: any;
-    d = {};
-    d.data = {};
-    d.data.user = {};
-    d.data.user.phonenumber = this._currentUserdetail.phonenumber;
-    d.data.forgot = this._currentUserdetail.forgot;
-
-    d.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    alert(JSON.stringify(d));
-    // alert(JSON.stringify(this._currentUserdetail));
-    if (d.data.user['phonenumber'] !== undefined) {
-      this.websocketDataServiceService.getForgotKeys(d);
-    } else { alert('forgot key is empty'); }
-  }
-
   createTransaction() {
     let x;
     this._trans.push(x = this.websocketDataServiceService.createTransaction());

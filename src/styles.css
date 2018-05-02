@@ -10,6 +10,8 @@ body {
 .main-bg-color:hover {
     background: linear-gradient(to right, rgb(230, 26, 196), rgb(185, 8, 185)) !important;
     color: rgb(255, 255, 255) !important;
+    transition: 0.5s;
+    font-size: 13pt !important;
 }
 
 
@@ -23,6 +25,8 @@ body {
 .main-bg-color-right:hover {
     background: linear-gradient(to right, rgb(185, 8, 185), rgb(230, 26, 196)) !important;
     color: rgb(255, 255, 255) !important;
+    transition: 0.5s;
+    font-size: 13pt !important;
 }
 
 .main-icon-color {

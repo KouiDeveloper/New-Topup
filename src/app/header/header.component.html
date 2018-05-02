@@ -5,44 +5,25 @@
     <div class="col-2">
         <a [routerLink]="['/all-menu']"><img class="mr-auto" src="../../assets/logo/Paycheaplogo-header.png" alt="" style="height:66px;"></a>
     </div>
-    <div class="collapse navbar-collapse" id="collapse_target" [routerLink]="['/all-menu']">
+    <div class="collapse navbar-collapse" id="collapse_target">
         <div class="col-8">
             <div class="dropdown">
-                <button class="btn-font-color btn-custom-all text-center" type="button">
-                        <i class="fab fa-accusoft"></i> Home
-                </button>
-                <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                    <button class="dropdown-item" type="button" [routerLink]="['/index']">index</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/admin']">Admin</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/admin-history']">Admin-History</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/forgotpassword']">ForgotPassword</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/changepassword']">Changepassword</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/hometopup']">TopUp</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/ubalance']">User-Balance</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/urecharge']">User-Recharge-Cashier</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/u-recharge-request']">User-Recharge-Request</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/transfer-history']">Transfer-History</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/items']">Items</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/item-shop']">Item-Shop</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/user-info']">User-info</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/all-menu']">Menu</button>
-                    <button class="dropdown-item" type="button" [routerLink]="['/test']">Test</button>
-                </div> -->
+                <a class="nav-link btn-font-color btn-custom-all text-center" [routerLink]="['/all-menu']">
+                    <i class="fab fa-accusoft"></i> Home
+                </a>
             </div>
         </div>
         <div class="col-2">
             <div class="login">
                 <ul class="ml-auto navbar-nav head-right-fonts">
                     <li class="dropdown navbar-item border-right-0" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <a href="#" class="nav-link text-center change-head-right-color"><i class="fas fa-users"></i> 
+                        <a class="nav-link text-center change-head-right-color"><i class="fas fa-users"></i> 
                                             <br>Sign In</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <button class="dropdown-item" type="button" id="head-drop-font" [routerLink]="['/login']"><i class="fas fa-user"></i> Sign In</button>
                             <button class="dropdown-item" type="button" id="head-drop-font" [routerLink]="['/register']"><i class="far fa-registered"></i> Register</button>
                             <hr>
                             <button class="dropdown-item" type="button" id="head-drop-font" (click)="logout()"><i class="fas fa-level-down-alt"></i> Logout</button>
-                            <hr>
-                            <button class="dropdown-item" type="button" id="head-drop-font" [routerLink]="['/modal']"><i class="fas fa-level-down-alt"></i> Modal</button>
                             <hr>
                             <button class="dropdown-item" type="button" id="head-drop-font"><i class="far fa-address-book"></i> For Admin</button>
                         </div>

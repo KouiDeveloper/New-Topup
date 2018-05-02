@@ -36,6 +36,7 @@ export class ChangePhoneComponent implements OnInit {
   private _trans: any = [];
 
   @ViewChild('content') content: ElementRef;
+  @ViewChild('show_sms') show_sms: ElementRef;
 
   /// WEBSOCKET LAUNCHING
   constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router,private modalService: NgbModal) {
@@ -70,6 +71,11 @@ export class ChangePhoneComponent implements OnInit {
     this.modalService.open(content,{ centered: true }); 
     // alert(content);   
 } 
+
+show_else_get_sms(show_sms){
+  this.modalService.open(show_sms,{ centered: true }); 
+  // alert(content);   
+}
 
 //// END WEBSOCKET LAUNCHING
 
@@ -125,10 +131,6 @@ export class ChangePhoneComponent implements OnInit {
     try {
       if (c !== undefined) {
         this._client = c;
-        // console.log('return from server');
-        // console.log(msg);
-        // console.log(this._client.data['command'] + this._client.data['command2']);
-        // alert(JSON.stringify(c));
         switch (this._client.data['command']) {
           case 'heart-beat':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
@@ -167,8 +169,6 @@ export class ChangePhoneComponent implements OnInit {
             }
             break;
           case 'get-user-gui':
-            // console.log('here get user gui ');
-            // // console.log(this._client);
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
               console.log(this._client.data['message']);
             } else {
@@ -211,7 +211,7 @@ export class ChangePhoneComponent implements OnInit {
             break;
           case 'send-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              //alert(this._client.data['message']);
+              //alert(this._client.data['message']);              
             } else {
               this._currentUserdetail = this._client.data['user'];
               //alert('send confirm phone sms ok');
@@ -284,40 +284,11 @@ export class ChangePhoneComponent implements OnInit {
                   console.log(d['client']['data']['res'].msisdn);
                 }
               }
-              if (d['client']['data']['command'] === 'send-topup') {
-                console.log(d['client'].data.message);
-              }
-              if (d['client']['data']['command'] === 'received-topup') {
-                console.log(d['client'].data.message);
-                if (d['client']['data']['topup'] !== undefined) {
-                  console.log('topup');
-                  console.log(d['client']['data']['res'].resultDesc);
-                  console.log(d['client']['data']['res'].msisdn);
-                }
-              }
-              if (d['client']['data']['command'] === 'send-check-balance') {
-                console.log(d['client'].data.message);
-              }
-              if (d['client']['data']['command'] === 'received-check-balance') {
-                console.log(d['client'].data.message);
-                if (d['client']['data']['checkbalance'] !== undefined) {
-                  console.log('topup');
-                  console.log(d['client']['data']['res'].resultDesc);
-                  console.log(d['client']['data']['res'].msisdn);
-                }
-              }
-              break;
              case 'error-changed':
-            console.log(d);
-              break;
-            case 'login-changed':
             console.log(d);
               break;
             case 'message-changed':
               // console.log(d['client']['data']['message']);
-              break;
-            case 'forgot-changed':
-            console.log(d);
               break;
               case 'phone-changed':
               console.log(d);
@@ -410,9 +381,10 @@ export class ChangePhoneComponent implements OnInit {
   getSMSConfirm() {
     if (this._client.logintoken) {
       // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-      this.websocketDataServiceService.send_confirm_phone_sms(this._newUser['data'].user);
+      this.websocketDataServiceService.send_confirm_phone_sms(this._newUser['data'].user);      
     } else {
-      alert('login first');
+      // alert('login first');
+      this.show_else_get_sms(this.show_sms);
     }
   }
   checkSMSConfirm($event: any) {

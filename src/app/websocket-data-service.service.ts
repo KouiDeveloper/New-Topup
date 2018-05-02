@@ -298,9 +298,11 @@ export class WebsocketDataServiceService implements OnInit {
             case 'get-secret':
               if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
                 // console.log(this._client.data['message']);
+                alert("1");
               } else {
                 this._newUser.data = this._client.data;
                 this.refreshNewUserMessage();
+                alert("two");
               }
               break;
             case 'register':

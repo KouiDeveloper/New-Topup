@@ -5,6 +5,9 @@ import { WebsocketDataServiceService } from "../websocket-data-service.service";
 import { ChatService, Message } from "../chat.service";
 import { WebsocketService } from "../websocket.service";
 
+import { ViewEncapsulation,ElementRef,ViewChild} from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: "app-user-info",
   templateUrl: "./user-info.component.html",
@@ -31,10 +34,13 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   private _subs: any = [];
   private _trans: any = [];
 
+  @ViewChild('Alert_update_details') Alert_update_details: ElementRef;
+
   /// WEBSOCKET LAUNCHING
   constructor(
     private websocketDataServiceService: WebsocketDataServiceService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     this.loadClient();
     if(!this._client.logintoken){
@@ -60,6 +66,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       this.readOtherMessage(msg);
     }));
   }
+
+
+    // Alert_update_details ++++++++++ //
+
+    Show_update_details(Alert_update_details){
+      this.modalService.open(Alert_update_details,{ centered: true }); 
+      // alert(content);   
+  } 
+
   //// END WEBSOCKET LAUNCHING
 
   /// OTHER FUNCTIONS
@@ -156,10 +171,11 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           } else {
             // // console.log(this._client.data['user']);
             const u = JSON.parse(JSON.stringify(c.data["user"]));
-            alert(JSON.stringify(u));
+            //alert(JSON.stringify(u));
             this._currentUserdetail = u;
             this.saveClient();
             console.log("edit user details ok");
+            this.Show_update_details(this.Alert_update_details);
           }
           break;
         case "get-profile":

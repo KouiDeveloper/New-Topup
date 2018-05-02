@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit, OnDestroy,ElementRef,ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';  // <<<< import it here
 import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
 
-import { ViewEncapsulation} from '@angular/core';
+import { ViewEncapsulation,ElementRef,ViewChild} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -38,7 +38,10 @@ export class ForgotpasswordComponent implements OnInit {
   @ViewChild('keyempty') keyempty: ElementRef;
 
   /// WEBSOCKET LAUNCHING
-  constructor(private websocketDataServiceService: WebsocketDataServiceService, private router: Router,private modalService: NgbModal) {
+  constructor(private websocketDataServiceService: WebsocketDataServiceService, 
+    private router: Router,
+    private modalService: NgbModal) 
+  {
     this.loadClient();    
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
@@ -155,51 +158,12 @@ export class ForgotpasswordComponent implements OnInit {
           console.log('ping OK');
           // // alert(this._client.data['message']);
           break;
-        case 'login':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('LOGIN OK');
-          }
-          break;
-        case 'get-client':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('get-client OK');
-          }
-          break;
         case 'shake-hands':
           if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
             // // console.log(this._client);
             console.log(this._client.data['message']);
           } else {
             console.log('shake hands ok');
-          }
-          break;
-        case 'logout':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            console.log('LOGOUT OK');
-          }
-          break;
-        case 'get-profile':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // console.log(this._client.data['user']);
-            const u = JSON.parse(JSON.stringify(c.data['user']));
-            this._currentUserdetail = u;
-            console.log('get user details ok');
-          }
-          break;
-        case 'change-password':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            // // alert('change password OK');
-            console.log('change password OK');
           }
           break;
         case 'get-transaction':
@@ -288,30 +252,6 @@ export class ForgotpasswordComponent implements OnInit {
             console.log('get secret  ok');
           }
           break;
-        case 'register':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._newUser.data = this._client.data;
-            console.log('register ok');
-          }
-          break;
-        case 'send-confirm-phone-sms':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._currentUserdetail = this._client.data['user'];
-            console.log('send confirm phone sms ok');
-          }
-          break;
-        case 'check-confirm-phone-sms':
-          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-            console.log(this._client.data['message']);
-          } else {
-            this._currentUserdetail = this._client.data['user'];
-            console.log('check confirm phone sms ok');
-          }
-          break;
         default:
           break;
       }
@@ -340,36 +280,10 @@ export class ForgotpasswordComponent implements OnInit {
             console.log(d['client']['data']['res'].resultDesc);
             console.log(d['client']['data']['res'].msisdn);
           }
-          if (d['client']['data']['topup'] !== undefined) {
-            console.log('topup');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          if (d['client']['data']['checkbalance'] !== undefined) {
-            console.log('check balance');
-            console.log(d['client']['data']['res'].resultDesc);
-            console.log(d['client']['data']['res'].msisdn);
-          }
-          break;
         case 'error-changed':
           console.log(d['client']['data']['message']);
           break;
-        case 'login-changed':
-          console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
-          break;
-        case 'message-changed':
-          console.log(d['client']['data']['message']);
-          break;
-          case 'forgot-changed':
-          console.log(d);
-          break;
-          case 'online-changed':
-          console.log(d);
-          break;
           case 'secret-changed':
-          console.log(d);
-          break;
-          case 'phone-changed':
           console.log(d);
           break;
         default:
@@ -418,47 +332,12 @@ export class ForgotpasswordComponent implements OnInit {
     console.log(this._client);
   }
 
-  login() {
-    // alert(JSON.stringify(this._loginUser));
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.login(this._loginUser); // return to this._client
-    this.clearJSONValue(this._loginUser);
-  }
-  logout() {
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
-    this.websocketDataServiceService.logout();
-  }
-  getUserDetails() {
-   //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-   this._client.data.user=this._currentUserdetail;
-   //this.websocketDataServiceService.refreshClient();
-   this.websocketDataServiceService.getUserDetails(this._client.data);
-  }
-  updateUserDetails() {
-    //this._currentUserdetail = JSON.parse(this._userDetailsStr);
-    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    //this.websocketDataServiceService.refreshClient();
-    //alert(JSON.stringify(this._currentUserdetail));
-    this.websocketDataServiceService.updateUserDetails(this._currentUserdetail); // should be _userDetails
-  }
   get_user_gui() {
     // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.get_user_gui();
   }
 
-  changepassword() {
-    // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.changePassword(this._currentUserdetail);
-    this.clearJSONValue(this._currentUserdetail);
-  }
-  register() {
-    this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.register(this._newUser);
-    this.clearJSONValue(this._newUser);
-  }
   getSecret() {
     this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.getSecret(this._newUser);
@@ -471,47 +350,8 @@ export class ForgotpasswordComponent implements OnInit {
       }
     }
   }
-  checkUsername() {
-    this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.checkUsername(this._newUser);
-  }
-  checkPhoneNumber() {
-    this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.checkPhoneNumber(this._newUser);
-  }
-  getSMSConfirm() {
-    if (this._client.logintoken) {
-      // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-      this.websocketDataServiceService.send_confirm_phone_sms(this._currentUserdetail);
-    } else {
-      alert('login first');
-    }
-  }
-  checkSMSConfirm($event: any) {
-    if (this._client.logintoken) {
-      if (this._newUser.data['secret'] !== undefined) {
-        if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          this.websocketDataServiceService.check_confirm_phone_sms(this._newUser);
-        }
-      }
-    } else {
-      alert('login first');
-    }
-
-  }
-  changePhoneNumber() {
-    if (this._client.logintoken) {
-      if (this._newUser.data['secret'] !== undefined) {
-        if (this._newUser.data['secret'].length === 6) {
-          this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
-        }
-      }
-    } else {
-      alert('login first');
-    }
-  }
+  
+  
   goTo(com) {
     console.log(JSON.stringify(this._client));
     this.websocketDataServiceService.setClient(this._client);

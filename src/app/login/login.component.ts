@@ -5,6 +5,7 @@ import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -49,8 +50,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.readServerEvent(events);
     }));
     this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
-  // this._currentUserdetail = user;
-     // this._userDetailsStr = JSON.stringify(this._currentUserdetail);
       this.readCurrentUserDetail(user);
     }));
 
@@ -112,10 +111,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     try {
       if (c !== undefined) {
         this._client = c;
-        // console.log('return from server');
-        // console.log(msg);
-        // console.log(this._client.data['command'] + this._client.data['command2']);
-        // alert(JSON.stringify(c));
         switch (this._client.data['command']) {
           case 'heart-beat':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
@@ -156,9 +151,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           default:
             break;
         }
-        // console.log(this.heartbeat_interval);
-        // console.log(this._client);
-        // if (evt.data != '.') $('#output').append('<p>'+evt.data+'</p>');
       } else {
         // alert('data empty');
         console.log('data is empty');
@@ -184,43 +176,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         // console.log('changed from server');
         // console.log(d['command'] + d['command2']);
         switch (d['command']) {
-          case 'notification-changed':
-            if (d['client']['data']['sms'] !== undefined) {
-              console.log('SMS');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            if (d['client']['data']['topup'] !== undefined) {
-              console.log('topup');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            if (d['client']['data']['checkbalance'] !== undefined) {
-              console.log('check balance');
-              console.log(d['client']['data']['res'].resultDesc);
-              console.log(d['client']['data']['res'].msisdn);
-            }
-            break;
           case 'error-changed':
             console.log(d['client']['data']['message']);
             break;
           case 'login-changed':
             console.log(d['client']['logintoken'] + '   -   ' + d['client']['logintime']);
-            break;
-          case 'message-changed':
-            console.log(d['client']['data']['message']);
-            break;
-          case 'forgot-changed':
-            console.log(d);
-            break;
-            case 'online-changed':
-            console.log(d);
-            break;
-            case 'secret-changed':
-            console.log(d);
-            break;
-            case 'phone-changed':
-            console.log(d);
             break;
           default:
             break;
@@ -285,16 +245,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   goTo(com) {
     console.log(JSON.stringify(this._client));
-    // if (!this._client.gui || this._client.gui === undefined) {
-    //   this._client = this.websocketDataServiceService.getClient();
-    // }
     this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     this.router.navigate([com]).then(res => {
-      // this.websocketDataServiceService.stopService();
-      // alert(res);
+     
     }).catch(err => {
-      // alert(err);
+      console.log(err);
     });
   }
 

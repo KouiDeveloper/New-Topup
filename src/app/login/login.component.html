@@ -8,7 +8,7 @@
                 <input [value]="_loginUser.username===undefined?'':_loginUser.username" (input)="_loginUser.username=$event.target.value" name="loginUsername" type="text" placeholder="Username" class="form-control input-md" required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="password">ລະຫັດຜ່ານ*</label>
                 <input [value]="_loginUser.password===undefined? '' :_loginUser.password" (input)="_loginUser.password=$event.target.value" name="loginPassword" type="password" placeholder="password" class="form-control input-md" required>
-                <span><a href=""><p class="text-right langlao mt-2">ລືມລະຫັດຜ່ານ?</p></a> </span>
+                <span><a [routerLink]="['/forgotpassword']"><p class="text-right langlao mt-2">ລືມລະຫັດຜ່ານ?</p></a> </span>
                 <span class="input-group">
                     <input type="checkbox" style="height:40px; width:60px;"> <i class="smoke-font-color mt-2 mb-4">Keep me signed in</i>
                 </span>
