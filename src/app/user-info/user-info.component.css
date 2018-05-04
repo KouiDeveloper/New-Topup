@@ -1,3 +1,20 @@
 .input-group button {
     width: 40% !important;
 }
+
+.rounded-circle {
+    width: 150px;
+    height: 150px;
+}
+
+.d-block {
+    width: 48%;
+}
+
+.d-flex a {
+    cursor: pointer;
+}
+
+#uploadphoto {
+    cursor: pointer;
+}

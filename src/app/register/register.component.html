@@ -18,8 +18,8 @@
                 <input (value)="_newUser.data['user'].confirmpassword===undefined? '' : _newUser.data['user'].confirmpassword" (input)="_newUser.data['user'].confirmpassword=$event.target.value" name="rconfirmpassword" type="password" placeholder="confirm password" class="form-control"
                     required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="secret">Secret*</label>
-                <input name="secret" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSecret($event)" maxlength="6" type="number" placeholder="secret" class="form-control"
-                    required>
+                <input name="secret" minlength="10" maxlength="10" [value]="_newUser.data['secret']===undefined? '' : _newUser.data['secret']" (input)="_newUser.data['secret']=$event.target.value" (keyup)="checkSecret($event)" maxlength="6" type="number" placeholder="secret"
+                    class="form-control" required>
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="btnGetSecret"></label>
                 <button (click)="getSecret()" name="btnGetSecret" class="btn btn-info mt-3">get secret</button>
                 <label for="submit"></label>
@@ -44,6 +44,24 @@
     </div>
     <div class="modal-body">
         <p class="text-center langlao">ສຳເລັດການລົງທະບຽນ ກະລຸນາເຂົ້າສູ່ລະບົບອີກຄັ້ງ&hellip;</p>
+        <p class="text-center langlao">ຂໍຂອບໃຈ&hellip;</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light langlao" (click)="c('Close click')">ຕົກລົງ</button>
+    </div>
+</ng-template>
+
+<!-- the tag below make for alert key empty -->
+
+<ng-template #keyempty let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5 class="modal-title langlao"><b class="text-center"></b></h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center langlao">ກະລຸນາ ປ້ອນຂໍ້ມູນໃຫ້ຄົບຖ້ວນ</p>
         <p class="text-center langlao">ຂໍຂອບໃຈ&hellip;</p>
     </div>
     <div class="modal-footer">

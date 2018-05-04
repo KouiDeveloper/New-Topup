@@ -3,6 +3,31 @@
         <div class="col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12 border-register" style="width:100%;">
             <h3 class="text-center display-7">Pay Cheap <i class="fas fa-leaf" id="register-color-icon"></i></h3>
             <h5 class="text-center display-5 langlao">ຂໍ້ມູນສ່ວນຕົວ</h5>
+
+            <div *ngIf="_currentUserdetail.photo===undefined  || !_currentUserdetail.photo || !_currentUserdetail.photo.length; then nophoto else  havephoto"></div>
+            <ng-template #havephoto>
+                <div class="d-flex justify-content-center mt-3">
+                    <span *ngFor="let image of _currentUserdetail.photo; index as i">
+                        <label id='uploadphoto' for="upload" class="">
+                            <input type="file" (change)="uploadChange($event)" id="upload" name="upload" placeholder="file"  hidden required >                        
+                            <img  [id]="image.name" class="rounded-circle" [src]="image.url" alt="">
+                        </label>
+                            <!-- <div class="clearfix"></div> -->
+                        <!-- <a (click)="removePhoto(image.name)">remove</a> -->
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template #nophoto>
+                <div class="d-flex justify-content-center mt-3">
+                    <label id='uploadphoto' for="upload" class="">
+                        <input type="file" (change)="uploadChange($event)" id="upload" name="upload" placeholder="file"  hidden required >
+                        <img class="rounded-circle" src="../../assets/images/default-user.png" alt="">
+                        <p class="text-center">Select PHOTO</p>
+                    </label>
+
+                </div>
+            </ng-template>
+            <hr>
             <form action="">
                 <label class="ml-4 mt-3 langlao smoke-font-color" for="Username">ຊື່ແລະນາມສະກຸນ*</label>
                 <input name="username" [ngModel]='_currentUserdetail.username' type="text" placeholder="ກຳລັງດຳເນີນການ..." class="form-control langlao" disabled>
@@ -45,6 +70,24 @@
     </div>
     <div class="modal-body">
         <p class="text-center langlao">ອັບເດດໂປຣຟາຍລ໌ສຳເລັດ</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light langlao" (click)="c('Close click')" [routerLink]="[ '/user-info']">ຕົກລົງ</button>
+    </div>
+</ng-template>
+
+<!-- the tag below make for Show_type_error -->
+
+<ng-template #Type_dont_support let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5 class="modal-title langlao"><b class="text-center"></b></h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center langlao">ບໍ່ສະໜັບສະໜູນໄຟລ໌ນີ້</p>
+        <p class="text-center langlao">ກະລຸນາໃຊ້ໄຟລ໌ນາມສະກຸນດັ່ງນີ້: png, jpg , gif , jpeg</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-light langlao" (click)="c('Close click')" [routerLink]="[ '/user-info']">ຕົກລົງ</button>

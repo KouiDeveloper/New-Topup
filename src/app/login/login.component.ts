@@ -87,7 +87,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     
   }
   saveClient() {
-    //this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.setClient(this._client);
     console.log(JSON.stringify(this._client));
   }
@@ -205,11 +204,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   /// END RECEIVING
 
-
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.changeMessage(this._client);
   }
@@ -219,16 +217,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       data: {},
       other: {}, // ...
     };
-    msg.data['transaction'] = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    //msg.data['transaction'] = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.setOtherMessage(msg);
   }
   shakeHands() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.shakeHands();
   }
   ping_test() {
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.ping_test();
     this._client.data.message += ' HERE in app component';
@@ -237,10 +235,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     // alert(JSON.stringify(this._loginUser));
-    this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    this.websocketDataServiceService.refreshClient();
+    //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    this.websocketDataServiceService.refreshClient();    
     this.websocketDataServiceService.login(this._loginUser); // return to this._client
-    this.clearJSONValue(this._loginUser);
+    
+    //this.clearJSONValue(this._loginUser);
   }
 
   goTo(com) {

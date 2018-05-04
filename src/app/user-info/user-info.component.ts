@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms"; // <<<< import it here
 import { WebsocketDataServiceService } from "../websocket-data-service.service";
 import { ChatService, Message } from "../chat.service";
 import { WebsocketService } from "../websocket.service";
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 import { ViewEncapsulation,ElementRef,ViewChild} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -35,12 +37,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   private _trans: any = [];
 
   @ViewChild('Alert_update_details') Alert_update_details: ElementRef;
+  @ViewChild('Type_dont_support') Type_dont_support: ElementRef;
 
   /// WEBSOCKET LAUNCHING
   constructor(
     private websocketDataServiceService: WebsocketDataServiceService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
+    private chatService: ChatService
   ) {
     this.loadClient();
     if(!this._client.logintoken){
@@ -74,6 +79,14 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       this.modalService.open(Alert_update_details,{ centered: true }); 
       // alert(content);   
   } 
+
+   // Alert_update_details ++++++++++ //
+
+   Show_type_error(Type_dont_support){
+    this.modalService.open(Type_dont_support,{ centered: true }); 
+    // alert(content);   
+} 
+
 
   //// END WEBSOCKET LAUNCHING
 
@@ -172,7 +185,11 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             // // console.log(this._client.data['user']);
             const u = JSON.parse(JSON.stringify(c.data["user"]));
             //alert(JSON.stringify(u));
+            let photo=JSON.parse(JSON.stringify(this._currentUserdetail.photo));
+            u.photo=photo;
+            this.updateProfilePhoto(u.photo);
             this._currentUserdetail = u;
+            //console.log(this._currentUserdetail.photo);
             this.saveClient();
             console.log("edit user details ok");
             this.Show_update_details(this.Alert_update_details);
@@ -185,8 +202,13 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             console.log(this._client.data["message"]);
           } else {
             // // console.log(this._client.data['user']);
-            const u = JSON.parse(JSON.stringify(c.data["user"]));
-            this._currentUserdetail = u;
+            const u = JSON.parse(JSON.stringify(this._client.data["user"]));
+            //console.log(u);
+            this.updateProfilePhoto(u.photo);
+            this._currentUserdetail=u;
+            
+            //console.log(this._currentUserdetail);
+            //console.log(this._currentUserdetail.photo[0].url);
             console.log("get user details ok");
           }
           break;
@@ -211,12 +233,22 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           }
           break;
 
+          case "upload":
+          if (
+            this._client.data["message"].toLowerCase().indexOf("error") > -1
+          ) {
+            console.log(this._client.data["message"]);
+            alert("Error Upload")
+          } else {
+            // // alert('change password OK');
+            console.log("check transaction id ok");
+            alert("pass Upload");
+          }
+          break;
         default:
           break;
       }
-      // console.log(this.heartbeat_interval);
-      // console.log(this._client);
-      // if (evt.data != '.') $('#output').append('<p>'+evt.data+'</p>');
+  
     } else {
       // alert('data empty');
       console.log("data is empty");
@@ -232,8 +264,8 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   
   }
   readCurrentUserDetail(c: any): any {
-    this._currentUserdetail = c;
-    this._userDetailsStr = JSON.stringify(this._currentUserdetail);
+    //this._currentUserdetail = c;
+    //this._userDetailsStr = JSON.stringify(this._currentUserdetail);
   }
   readOtherMessage(m: any): any {
     // this._message
@@ -257,9 +289,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     // msg.data['transaction'] = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.setOtherMessage(msg);
   }
+  sendMsg() {
+    // this._message.data['command'] = 'ping';
+    // console.log(JSON.stringify(this._message));
+    // console.log('new message from client to websocket: ', JSON.stringify(this._message.data['command']));
+    if (this._message['gui'] || this._message.data['command'] === 'shake-hands' || this._message.data['command'] === 'ping') {
+      this.chatService.messages.next(this._message);
+    }
+  }
   shakeHands() {
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.shakeHands();
   }
   ping_test() {
@@ -289,20 +327,41 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   goTo(com) {
     console.log(JSON.stringify(this._client));
-    // if (!this._client.gui || this._client.gui === undefined) {
-    //   this._client = this.websocketDataServiceService.getClient();
-    // }
-    //this.websocketDataServiceService.refreshClient();
-    //this.websocketDataServiceService.setClient(this._client);
     this.router
       .navigate([com])
       .then(res => {
-        // this.websocketDataServiceService.stopService();
-        // alert(res);
+
       })
       .catch(err => {
         // alert(err);
       });
+  }
+
+  binary2imageurl(bin) {
+    const l = bin.length;
+    const urlCreator = window.URL;
+    const array = new Uint8Array(l);
+    for (let i = 0; i < l; i++) {
+      array[i] = bin.charCodeAt(i);
+    }
+    const blob = new Blob([array], { type: 'image/jpeg' });
+    return this.sanitizer.bypassSecurityTrustUrl(
+      urlCreator.createObjectURL(blob));
+
+  }
+  arraybuffer2imageurl(blob: File) {
+    const urlCreator = window.URL;
+    // const blob = new Blob([ab]);
+    return this.sanitizer.bypassSecurityTrustUrl(
+      urlCreator.createObjectURL(blob));
+  }
+  
+  upload(data) {
+    this._message = JSON.parse(JSON.stringify(this._client));
+    this._message.data = data;
+    //this._message.data.transaction = this.createTransaction();
+    this._message.data.command = 'upload';
+    this.sendMsg();
   }
   createTransaction() {
     let x;
@@ -311,6 +370,87 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     );
     return x;
   }
+
+  uploadChange($event): void {
+    const file: File = $event.target.files[0];
+    if (file === undefined) {
+      return;
+    }
+    let allowtype=['png','jpg','gif','jpeg'];
+    console.log(file.type);
+    if(allowtype.indexOf(file.type.toLowerCase().split('/')[1])<0){
+      this.Show_type_error(this.Type_dont_support);
+      return;
+    }
+
+    const myReader: FileReader = new FileReader();
+    const photo = {
+      arraybuffer: '',
+      url: {},
+      name: ((Math.random() * 1000000) + 1) + '_' + file.name,
+      lastmodifieddate: file.lastModifiedDate,
+      size: file.size,
+      type: file.type,
+    };
+    
+    if (this._currentUserdetail.photo === undefined || !this._currentUserdetail.photo) {
+      this._currentUserdetail.photo = [];
+    }
+    if(this._currentUserdetail.photo.length>0){
+      this._currentUserdetail.photo.splice(0,1);
+    }
+
+    photo.url = this.arraybuffer2imageurl(file);
+    //console.log(photo.url);
+    myReader.readAsBinaryString(file);
+    myReader.onloadend = (e) => {
+      photo.arraybuffer = myReader.result;
+      // const a_blob = new Blob([myReader.result], { type: 'binary' });
+      // photo.url = window.URL.createObjectURL(a_blob);
+      // alert(this._currentUserdetail.photo.length);
+      // this.binary2blob(photo.arraybuffer);
+      //this._currentUserdetail.testurl = this.binary2blob(photo.arraybuffer);
+      this._currentUserdetail.photo.push(photo);
+    };
+  }
+  binary2blob(bin) {
+    return this.websocketDataServiceService.binary2imageurl(bin);
+  }
+  removePhoto(name){
+    alert('deleting photo');
+    let array=this._currentUserdetail.photo;
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      if(element.name===name){
+        array.splice(index,1);
+        return;
+      }
+    }
+  }
+  updateProfilePhoto(photo){
+    if(photo===undefined || !photo)
+      photo=[];
+    if(photo.length){
+      for (let index = 0; index < photo.length; index++) {
+        const element = photo[index];
+        element.url= this.websocketDataServiceService.binary2imageurl(element.arraybuffer);
+      }
+    }   
+    //console.log(u);
+  }
+
+  selectDefaultPhoto(name){
+    let array=this._currentUserdetail.photo;
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      if(element.name===name){
+        array.splice(0,0,array.splice(index,1)[0]);
+        return;
+      }
+    }
+  }
+
+  
 
   /////////////// END SENDING
 }

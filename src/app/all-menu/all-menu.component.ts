@@ -64,6 +64,7 @@ export class AllMenuComponent implements OnInit {
       this.websocketDataServiceService.refreshClient();
       console.log('client loaded');
     } else {
+      this.websocketDataServiceService.refreshClient();
       this.saveClient();
     }
   }

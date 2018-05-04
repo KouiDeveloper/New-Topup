@@ -306,8 +306,6 @@ export class ForgotpasswordComponent implements OnInit {
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
-    // this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-    // // this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.changeMessage(this._client);
   }
   setOtherMessage() {
@@ -404,7 +402,7 @@ export class ForgotpasswordComponent implements OnInit {
       this.websocketDataServiceService.getForgotKeys(d);
     } else {
       // alert('forgot key is empty');
-      this.showkeyempty(this.keyempty);        
+      this.showkeyempty(this.keyempty);
     }
   }
 

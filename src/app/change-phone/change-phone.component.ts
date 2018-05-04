@@ -9,7 +9,6 @@ import { ElementRef,ViewChild,ViewEncapsulation} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 
-
 @Component({
   selector: 'app-change-phone',
   templateUrl: './change-phone.component.html',
@@ -67,12 +66,11 @@ export class ChangePhoneComponent implements OnInit {
 
    // show alert for client
 
-   showclient(content){
+  showclient(content){
     this.modalService.open(content,{ centered: true }); 
     // alert(content);   
 } 
-
-show_else_get_sms(show_sms){
+  show_else_get_sms(show_sms){
   this.modalService.open(show_sms,{ centered: true }); 
   // alert(content);   
 }
@@ -102,8 +100,7 @@ show_else_get_sms(show_sms){
     this._otherMessage = {};
   }
   ngOnDestroy() {
-    console.log('STOP SERVICE');
-    
+    console.log('STOP SERVICE');    
   }
   saveClient() {
     //// this.websocketDataServiceService.refreshClient();
@@ -122,8 +119,6 @@ show_else_get_sms(show_sms){
     }
   }
 /// INIT FUNCTIONS
-
-
 
   /// *************RECEIVING  */
   readClient(c): any {
@@ -211,9 +206,11 @@ show_else_get_sms(show_sms){
             break;
           case 'send-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
-              //alert(this._client.data['message']);              
+              //alert(this._client.data['message']); 
+             alert("one");            
             } else {
               this._currentUserdetail = this._client.data['user'];
+              
               //alert('send confirm phone sms ok');
             }
             break;
@@ -228,6 +225,7 @@ show_else_get_sms(show_sms){
             case 'update-confirm-phone-sms':
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
               //alert(this._client.data['message']);
+              alert("not working");
             } else {
               this._currentUserdetail = this._client.data['user'];
               this.logout();
@@ -359,7 +357,7 @@ show_else_get_sms(show_sms){
  
  
   getSecret() {
-    this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+    //this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.getSecret(this._newUser);
   }
   checkSecret(event: any) {
@@ -378,13 +376,15 @@ show_else_get_sms(show_sms){
     this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.checkPhoneNumber(this._newUser);
   }
+
   getSMSConfirm() {
-    if (this._client.logintoken) {
+    if (this._newUser.data['user'].phonenumber === undefined || this._newUser.data['user'].newphonenumber === undefined) {
       // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-      this.websocketDataServiceService.send_confirm_phone_sms(this._newUser['data'].user);      
-    } else {
-      // alert('login first');
       this.show_else_get_sms(this.show_sms);
+    }
+    else {      
+      this.websocketDataServiceService.send_confirm_phone_sms(this._newUser['data'].user);     
+      // alert('login first');
     }
   }
   checkSMSConfirm($event: any) {
@@ -404,10 +404,6 @@ show_else_get_sms(show_sms){
 if (this._client.logintoken) {
       if (this._newUser.data['secret'] !== undefined) {
         if (this._newUser.data['secret'].length === 6) {
-          // this._newUser.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
-          //this._newUser.data.user = this._currentUserdetail;
-          //alert(JSON.stringify(this._currentUserdetail));
-          //alert(JSON.stringify(this._newUser));
           this.websocketDataServiceService.update_confirm_phone(this._newUser.data);
         }
       }

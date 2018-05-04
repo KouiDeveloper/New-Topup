@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-
+import {PouchDBService} from './pouchdb.service';
 
 
 import { AppComponent } from './app.component';
@@ -76,7 +76,7 @@ import { ModalComponent } from './modal/modal.component';
     AppRoutingModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [PouchDBService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

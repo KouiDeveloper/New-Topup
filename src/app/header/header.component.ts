@@ -68,7 +68,6 @@ export class HeaderComponent implements OnInit {
   }
 //// END WEBSOCKET LAUNCHING
 
-
   /// OTHER FUNCTIONS
   private clearJSONValue(u) {
     for (const key in u) {
@@ -179,8 +178,6 @@ export class HeaderComponent implements OnInit {
   }
   /// END RECEIVING
 
-
-
   //// SENDING
   showNewMessage() {
     this._client.data.message = 'changed from show message';
@@ -206,6 +203,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.websocketDataServiceService.logout();
+   // alert(this.websocketDataServiceService.logout);
   }
 
   getSMSConfirm() {
