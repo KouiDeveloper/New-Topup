@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from "@angular/core";
+import { Component, Inject, OnInit, OnDestroy, destroyPlatform } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms"; // <<<< import it here
 import { WebsocketDataServiceService } from "../websocket-data-service.service";
@@ -9,7 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { ViewEncapsulation,ElementRef,ViewChild} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
+import { enable, destroy } from 'splash-screen';
 @Component({
   selector: "app-user-info",
   templateUrl: "./user-info.component.html",
@@ -17,6 +17,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   providers: [WebsocketDataServiceService, ChatService, WebsocketService]
 })
 export class UserInfoComponent implements OnInit, OnDestroy {
+  private loading=false;
   private _message: Message;
   private _newUser: any = {};
   private _userDetailsStr = "";
@@ -62,7 +63,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       this._subs.push(this.websocketDataServiceService.eventSource.subscribe(events => {
       this.readServerEvent(events);
     }));
-      this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
+      this._subs.push(this.websocketDataServiceService.currentUserSource.retry().subscribe(user => {
       this.readCurrentUserDetail(user);
     }));
 
@@ -126,8 +127,9 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       this._client = this.websocketDataServiceService.getClient();
       //this.websocketDataServiceService.refreshClient();
       console.log("client loaded");
+      // this.shakeHands();
     } else {
-      this.saveClient();
+      //this.saveClient();
     }
   }
   /// INIT FUNCTIONS
@@ -182,6 +184,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           ) {
             console.log(this._client.data["message"]);
           } else {
+            
             // // console.log(this._client.data['user']);
             const u = JSON.parse(JSON.stringify(c.data["user"]));
             //alert(JSON.stringify(u));
@@ -192,6 +195,8 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             //console.log(this._currentUserdetail.photo);
             this.saveClient();
             console.log("edit user details ok");
+            // destroy();
+            this.loading=false;
             this.Show_update_details(this.Alert_update_details);
           }
           break;
@@ -206,7 +211,8 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             //console.log(u);
             this.updateProfilePhoto(u.photo);
             this._currentUserdetail=u;
-            
+            // destroy();
+            this.loading=false;
             //console.log(this._currentUserdetail);
             //console.log(this._currentUserdetail.photo[0].url);
             console.log("get user details ok");
@@ -243,6 +249,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             // // alert('change password OK');
             console.log("check transaction id ok");
             alert("pass Upload");
+          }
+          break;
+          case 'logout':
+          if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
+            console.log(this._client.data['message']);
+          } else {
+            console.log('LOGOUT OK');
+            this.saveClient();            
+            this.router.navigate(['welcome']);
           }
           break;
         default:
@@ -309,12 +324,16 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   getUserDetails() {
+    // enable('tailing');
+    this.loading=true;
     //this._client.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this._client.data.user = this._currentUserdetail;
     //this.websocketDataServiceService.refreshClient();
     this.websocketDataServiceService.getUserDetails(this._client.data);
   }
   updateUserDetails() {
+    // enable('tailing');
+    this.loading=true;
     //this._currentUserdetail = JSON.parse(this._userDetailsStr);
     // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     //this.websocketDataServiceService.refreshClient();
@@ -323,6 +342,10 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
   get_user_gui() {
     this.websocketDataServiceService.get_user_gui();
+  }
+
+  logout() {  
+    this.websocketDataServiceService.logout();
   }
 
   goTo(com) {

@@ -171,7 +171,7 @@ export class WebsocketDataServiceService implements OnInit {
           this._client = msg;
           this.refreshClient();
           // console.log('return from server');
-          //console.log(msg);
+          console.log(msg);
           // console.log(this._client.data['command'] + this._client.data['command2']);
           switch (this._client.data['command']) {
             case 'heart-beat':
@@ -380,6 +380,7 @@ export class WebsocketDataServiceService implements OnInit {
     if (c) {
       this._client = c;
     }
+    this.refreshClient();
     return this._client;
   }
   setClient(c): void {
@@ -410,7 +411,7 @@ export class WebsocketDataServiceService implements OnInit {
   }
   stopService() {
     clearInterval(this.heartbeat_interval);
-    delete this.heartbeat_interval;
+    // delete this.heartbeat_interval;
   }
   shakeHands() {
     if (!this._client.gui || this._client.gui === undefined) {
@@ -424,11 +425,12 @@ export class WebsocketDataServiceService implements OnInit {
     }
     sessionStorage.setItem('firstHandShake', '1');
     // console.log('before shakehands' + JSON.stringify(this._client));
-    this._message = JSON.parse(JSON.stringify(this._client));
-    this._message.data['command'] = 'shake-hands';
-    this._message.data.transaction = this.createTransaction();
-    // console.log(this._message)
-    this.sendMsg();
+    if (!this._client.gui || this._client.gui === undefined) {
+      this._message = JSON.parse(JSON.stringify(this._client));
+      this._message.data['command'] = 'shake-hands';
+      this._message.data.transaction = this.createTransaction();
+      this.sendMsg();
+    }
     // // alert('shake handds');
   }
 
@@ -436,7 +438,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message = JSON.parse(JSON.stringify(this._client));
     this._message.data['command'] = 'login';
     this._message.data.user = loginuser;
-   // alert(JSON.stringify(this._message));
+    // // alert(JSON.stringify(this._message));
     this._message.data.transaction = this.createTransaction();
     this.sendMsg();
   }
@@ -447,7 +449,6 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data['user'] = {};
     this._message.data['command'] = 'logout';
     this._message.data.transaction = this.createTransaction();
-    console.log(this._message);
     this.sendMsg();
     // } else { return // alert('login first'); }
   }
@@ -458,6 +459,7 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = data;
     this._message.data['user'] = {};
     this._message.data['command'] = 'get-profile';
+    console.log(this._message);
     this._message.data.transaction = this.createTransaction();
     this.sendMsg();
     // } else { return // alert('login first'); }
@@ -661,6 +663,11 @@ export class WebsocketDataServiceService implements OnInit {
       urlCreator.createObjectURL(blob));
 
   }
+  createSafeURL(url) {
+    const urlCreator = window.URL;
+    console.log(url);
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
   arraybuffer2imageurl(blob: File) {
     const urlCreator = window.URL;
     // const blob = new Blob([ab]);
@@ -672,6 +679,14 @@ export class WebsocketDataServiceService implements OnInit {
     this._message.data = data;
     this._message.data.transaction = this.createTransaction();
     this._message.data.command = 'upload';
+    this.sendMsg();
+  }
+  getUpLoad(data) {
+    this._message = JSON.parse(JSON.stringify(this._client));
+    this._message.data = {};
+    this._message.data.transaction = this.createTransaction();
+    this._message.data.command = 'get-upload';
+    this._message.data.user = data;
     this.sendMsg();
   }
   //  uploadPhoto() {

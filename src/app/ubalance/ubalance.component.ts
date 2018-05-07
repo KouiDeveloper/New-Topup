@@ -12,7 +12,7 @@ import { WebsocketService } from '../websocket.service';
   providers: [WebsocketDataServiceService, ChatService, WebsocketService]
 })
 export class UbalanceComponent implements OnInit {
-
+  private loading=false;
   private _message: Message;
   private _newUser: any = {};
   private _userDetailsStr = '';
@@ -141,6 +141,7 @@ export class UbalanceComponent implements OnInit {
             // // console.log(this._client.data['user']);
             const u = JSON.parse(JSON.stringify(c.data['user']));
             this._currentUserdetail = u;
+            this.loading=false;
             console.log('get user details ok');
           } 
           break;
@@ -203,6 +204,7 @@ export class UbalanceComponent implements OnInit {
   }
 
   getUserDetails() {
+    this.loading=true;
     this._client.data.user=this._currentUserdetail;   
     this.websocketDataServiceService.getUserDetails(this._client.data);
   }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import * as Rx from 'rxjs/Rx';
-import { Buffer } from 'buffer';
-
+import {Buffer} from 'buffer';
 
 @Injectable()
 export class WebsocketService {
   constructor() { }
 
   private subject: Rx.Subject<MessageEvent>;
+
   public connect(url): Rx.Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
@@ -29,13 +29,12 @@ export class WebsocketService {
     const observer = {
       next: (data: Object) => {
         if (ws.readyState === WebSocket.OPEN) {
-          // ws.send(JSON.stringify(data));
-          const buf:Buffer = Buffer.from(JSON.stringify(data));
+          console.log(data);
+          const buf = Buffer.from(JSON.stringify(data));
           ws.send(buf);
         }
       }
     };
     return Rx.Subject.create(observer, observable);
   }
-
 }

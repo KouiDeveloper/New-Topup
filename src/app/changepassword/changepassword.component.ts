@@ -15,6 +15,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   providers: [WebsocketDataServiceService, ChatService, WebsocketService]
 })
 export class ChangepasswordComponent implements OnInit {
+  private loading = false;
   private _message: Message;
   private _newUser: any = {};
   private _userDetailsStr = '';
@@ -159,6 +160,7 @@ export class ChangepasswordComponent implements OnInit {
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
               console.log(this._client.data['message']);
             } else {
+              this.loading = false;
               this.logout();
               this.saveClient();
               this.showclient(this.content);
@@ -221,6 +223,7 @@ export class ChangepasswordComponent implements OnInit {
   }
 
   changepassword() {
+    this.loading=true;
     //this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
     this.websocketDataServiceService.changePassword(this._currentUserdetail);
     this.clearJSONValue(this._currentUserdetail);

@@ -20,14 +20,16 @@
         "styles": [
             "styles.css",
             "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "./assets/css/saysethalao.css"
+            "./assets/css/saysethalao.css",
+            "../node_modules/splash-screen/dist/splash-screen.min.css"
 
 
         ],
         "scripts": [
             "../node_modules/bootstrap/dist/js/jquery-3.3.1.slim.min.js",
             "../node_modules/bootstrap/dist/js/popper.min.js",
-            "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+            "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+            "../node_modules/splash-screen/dist/splash-screen.min.js"
 
 
         ],

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import {PouchDBService} from './pouchdb.service';
-
+import { LoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -75,6 +75,7 @@ import { ModalComponent } from './modal/modal.component';
     NgbModule.forRoot(),
     AppRoutingModule,
     FormsModule,
+    LoadingModule
   ],
   providers: [PouchDBService],
   bootstrap: [AppComponent]

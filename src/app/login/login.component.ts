@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this._subs.push(this.websocketDataServiceService.eventSource.subscribe(events => {
       this.readServerEvent(events);
     }));
-    this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
+    this._subs.push(this.websocketDataServiceService.currentUserSource.retry().subscribe(user => {
       this.readCurrentUserDetail(user);
     }));
 
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('firstHeartBeat', '');
     if (!this._client.gui || this._client.gui === undefined) {
       this._client = this.websocketDataServiceService.getClient();
-      this.websocketDataServiceService.refreshClient();
+      //this.websocketDataServiceService.refreshClient();
       console.log('client loaded');
     } else {
       this.saveClient();

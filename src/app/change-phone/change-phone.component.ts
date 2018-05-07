@@ -7,6 +7,7 @@ import { WebsocketService } from '../websocket.service';
 
 import { ElementRef,ViewChild,ViewEncapsulation} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { enable, destroy } from 'splash-screen';
 
 
 @Component({
@@ -15,6 +16,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./change-phone.component.css']
 })
 export class ChangePhoneComponent implements OnInit {
+  private loading=false;  
   private _message: Message;
   private _newUser: any = {};
   private _userDetailsStr = '';
@@ -178,6 +180,7 @@ export class ChangePhoneComponent implements OnInit {
               // // alert(this._client.data['user'].gui);
               this._newUser.data = this._client.data;
               console.log('check phonenumber ok');
+             
             }
             break;
           case 'check-username':
@@ -380,6 +383,7 @@ export class ChangePhoneComponent implements OnInit {
   getSMSConfirm() {
     if (this._newUser.data['user'].phonenumber === undefined || this._newUser.data['user'].newphonenumber === undefined) {
       // this._currentUserdetail.data.transaction = this.createTransaction(); // NEED TO BE DONE BEOFORE SEND MESSAGE
+      this.loading=false;
       this.show_else_get_sms(this.show_sms);
     }
     else {      
@@ -401,6 +405,8 @@ export class ChangePhoneComponent implements OnInit {
 
   }
   changePhoneNumber() {
+    // enable('tailing');
+    this.loading=true;    
 if (this._client.logintoken) {
       if (this._newUser.data['secret'] !== undefined) {
         if (this._newUser.data['secret'].length === 6) {
@@ -410,6 +416,7 @@ if (this._client.logintoken) {
     } else {
       console.log('login first');
     }
+    // destroy();
   }
   goTo(com) {
     console.log(JSON.stringify(this._client));

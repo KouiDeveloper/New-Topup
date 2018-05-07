@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';  // <<<< import it here
 import { WebsocketDataServiceService } from '../websocket-data-service.service';
 import { ChatService, Message } from '../chat.service';
 import { WebsocketService } from '../websocket.service';
-
+import { enable, destroy } from 'splash-screen';
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
       if (this._client.data['user'] !== undefined) {
-        console.log(JSON.stringify(this._client));
+        console.log(this._client);
         this.readClient(client);
       }
     }));
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
       this._server_event.push(events);
       this.readServerEvent(events);
     }));
-    this._subs.push(this.websocketDataServiceService.currentUserSource.subscribe(user => {
+    this._subs.push(this.websocketDataServiceService.currentUserSource.retry().subscribe(user => {
       this._currentUserdetail = user;
       this._userDetailsStr = JSON.stringify(this._currentUserdetail);
       this.readCurrentUserDetail(user);
@@ -99,15 +99,18 @@ export class HeaderComponent implements OnInit {
     console.log(JSON.stringify(this._client));
   }
   loadClient() {
+    //enable('tailing');
     sessionStorage.setItem('firstHandShake', '');
     sessionStorage.setItem('firstHeartBeat', '');
     if (!this._client.gui || this._client.gui === undefined) {
       this._client = this.websocketDataServiceService.getClient();
       // this.websocketDataServiceService.refreshClient();
+     this.shakeHands();
       console.log('client loaded');
     } else {
       this.saveClient();
     }
+    //destroy();
   }
 /// INIT FUNCTIONS
 
@@ -135,6 +138,7 @@ export class HeaderComponent implements OnInit {
               // // console.log(this._client);
               console.log(this._client.data['message']);
             } else {
+              // destroy();
               console.log('shake hands ok');
             }
             break;
@@ -142,9 +146,10 @@ export class HeaderComponent implements OnInit {
             if (this._client.data['message'].toLowerCase().indexOf('error') > -1) {
               console.log(this._client.data['message']);
             } else {
+              // destroy();
               this.saveClient();
-              console.log('LOGOUT OK');
               this.router.navigate(['/welcome']);
+              console.log('LOGOUT OK');
             }
             break;
         }
@@ -155,8 +160,7 @@ export class HeaderComponent implements OnInit {
       }
     } catch (error) {
       // alert(error);
-    }
-    
+    }    
   }
   readNewUser(n): any {
     // this._newUser;
@@ -202,7 +206,16 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    //Possible themes are: 'tailing', 'audio-wave', 'windcatcher', 'spinner-section', 'spinner-section-far', 'circular'.
     this.websocketDataServiceService.logout();
+    // enable('tailing');
+    // this._client.data={};
+    // this._client.gui='';
+    // this._client.logintoken='';
+    // this._client.username='';
+    // this.saveClient();
+    // destroy();
+    //this.router.navigate(['/welcome']);
    // alert(this.websocketDataServiceService.logout);
   }
 
@@ -253,7 +266,5 @@ export class HeaderComponent implements OnInit {
     this._trans.push(x = this.websocketDataServiceService.createTransaction());
     return x;
   }
-
   /////////////// END SENDING
-
 }

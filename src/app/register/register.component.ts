@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this._subs.push(this.websocketDataServiceService.clientSource.subscribe(client => {
       this._client = client;
       if (this._client.data['user'] !== undefined) {
-        console.log(JSON.stringify(this._client));
+        //console.log(JSON.stringify(this._client));
         this.readClient(client);
       }
     }));
@@ -122,6 +122,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this._client = this.websocketDataServiceService.getClient();
       // this.websocketDataServiceService.refreshClient();
       console.log('client loaded');
+      
     } else {
       this.saveClient();
     }
